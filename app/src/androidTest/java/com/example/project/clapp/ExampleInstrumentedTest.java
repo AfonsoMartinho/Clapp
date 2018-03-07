@@ -1,4 +1,4 @@
-package com.example.ruigomes.clapp;
+package com.example.project.clapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

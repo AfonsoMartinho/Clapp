@@ -1,4 +1,4 @@
-package com.example.ruigomes.clapp;
+package com.example.project.clapp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import java.io.Serializable;
 
+import com.example.ruigomes.clapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
