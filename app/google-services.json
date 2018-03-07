@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "161352257463",
+    "firebase_url": "https://clapp-28222.firebaseio.com",
+    "project_id": "clapp-28222",
+    "storage_bucket": "clapp-28222.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161352257463:android:aba0016cb1dbe03b",
+        "android_client_info": {
+          "package_name": "com.example.ruigomes.clapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161352257463-a8jrvmgjp08ir2f0jl22f78rm5t025e1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ruigomes.clapp",
+            "certificate_hash": "f2720d8505690b3eab0e30004e6fe1bc503d49d9"
+          }
+        },
+        {
+          "client_id": "161352257463-k2erm9os5le9jecqgi5odckjvv7fls7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvmaq1oTRUTLABG_gBC7KwnBBNxHg7eRw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161352257463-k2erm9os5le9jecqgi5odckjvv7fls7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
