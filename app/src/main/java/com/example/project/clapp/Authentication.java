@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.project.clapp.firebase.Firebase;
+import com.example.project.clapp.impl.UserFirebaseManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -46,15 +46,20 @@ public class Authentication extends AppCompatActivity {
         String password = passUser.getText().toString();
         Log.d(TAG, "ola" + email);
         Log.d(TAG, "pass" + password);
+        //Verifica se o utilizador existe na Firebase
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Authentication.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+
                             Log.d(TAG, "PODE ENTRAR");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Firebase.addUser();
+
+                            //Envia os dados para a RealTimeDatabase do Firebase
+                            UserFirebaseManager ufm = UserFirebaseManager.getInstance();
+                            ufm.addUser(user.getDisplayName(),user.getEmail());
+
                             //PASSAGEM PARA A HOME PAGE
                             Intent intent = new Intent(Authentication.this, HomePageActivity.class);
                             startActivity(intent);
