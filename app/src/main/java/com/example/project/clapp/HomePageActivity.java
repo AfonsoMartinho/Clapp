@@ -23,8 +23,8 @@ public class HomePageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DrawerLayout mDrawerLayout;
 
-    int[] IMAGES = {R.drawable.photoshopws};
-    String[] NAMES = {"Photoshop Workshop"};
+    int[] IMAGES = {R.drawable.photoshop, R.drawable.ilustrator};
+    String[] NAMES = {"Photoshop Workshop", "Ilustrator Workshop"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
