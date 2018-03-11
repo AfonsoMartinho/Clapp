@@ -1,9 +1,8 @@
 package com.example.project.clapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +17,6 @@ public class ProfileActivity extends AppCompatActivity {
         ImageView imageEvent=(ImageView)view.findViewById(R.id.imageView);
         TextView textName = (TextView)view.findViewById(R.id.textName);
 
-        imageEvent.setImageResource(R.drawable.luisfilipevieira);
+        //imageEvent.setImageResource(R.drawable.luisfilipevieira);
     }
 }
