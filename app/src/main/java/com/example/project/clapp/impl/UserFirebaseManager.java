@@ -25,13 +25,15 @@ public class UserFirebaseManager implements IUser {
     }
 
     @Override
-    public void addUser(String name, String mail) {
+    public void addUser(String userId, String mail) {
         DatabaseReference databaseUsers;
-        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
-        String id = databaseUsers.push().getKey();
-        User user = new User(id, name, mail);
-        databaseUsers.child(id).setValue(user);
+        databaseUsers = FirebaseDatabase.getInstance().getReference();
+        String name= "RENAME ME";
+        User user = new User(name,userId, mail);
+        databaseUsers.child("users").child(userId).setValue(user);
     }
+
+
 
     @Override
     public void removeUser(String name) {

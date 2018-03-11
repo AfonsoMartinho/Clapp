@@ -10,7 +10,7 @@ public interface IUser {
 
     User getUser(String name);
 
-    void addUser(String name, String mail);
+    void addUser(String userId,String mail);
 
     void removeUser(String name);
 }
