@@ -53,6 +53,7 @@
         android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_red_dark"
+        android:onClick="login"
         android:text="LOG IN"
         android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"

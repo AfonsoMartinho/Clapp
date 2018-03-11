@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "161352257463-8iad3n57ka86vchtpjka57jnvjk4cauv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ruigomes.clapp",
+            "certificate_hash": "19d83095fbe8ee15d8f7030ab79aa92b9cfc76e0"
+          }
+        },
+        {
           "client_id": "161352257463-a8jrvmgjp08ir2f0jl22f78rm5t025e1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
