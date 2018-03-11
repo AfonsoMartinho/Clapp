@@ -10,8 +10,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,6 +22,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class HomePageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DrawerLayout mDrawerLayout;
+
+    int[] IMAGES = {R.drawable.photoshopws};
+    String[] NAMES = {"Photoshop Workshop"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +33,13 @@ public class HomePageActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+
+        ListView listEvents = (ListView)findViewById(R.id.listEvents);
+        Adapter adaptador = new Adapter();
+        listEvents.setAdapter(adaptador);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -90,6 +104,35 @@ public class HomePageActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class Adapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return IMAGES.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.listeventlayout, null);
+            ImageView imageEvent=(ImageView)view.findViewById(R.id.imageView);
+            TextView textName = (TextView)view.findViewById(R.id.textName);
+
+            imageEvent.setImageResource(IMAGES[i]);
+            textName.setText(NAMES[i]);
+            return view;
+        }
     }
 
 }
