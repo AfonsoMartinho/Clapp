@@ -6,26 +6,18 @@ package com.example.project.clapp.models;
 
 public class User {
 
-    private String id;
+
     private String name;
+    private String userId;
     private String mail;
+
 
     private User(){}
 
-
-    public User(String id, String name, String mail) {
-        super();
-        this.id = id;
+    public User(String name, String userId, String mail) {
         this.name = name;
+        this.userId = userId;
         this.mail = mail;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -42,5 +34,13 @@ public class User {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

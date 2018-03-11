@@ -58,7 +58,7 @@ public class Authentication extends AppCompatActivity {
 
                             //Envia os dados para a RealTimeDatabase do Firebase
                             UserFirebaseManager ufm = UserFirebaseManager.getInstance();
-                            ufm.addUser(user.getDisplayName(),user.getEmail());
+                            ufm.addUser(user.getUid(), user.getEmail());
 
                             //PASSAGEM PARA A HOME PAGE
                             Intent intent = new Intent(Authentication.this, HomePageActivity.class);
