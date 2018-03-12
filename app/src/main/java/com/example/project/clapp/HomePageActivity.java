@@ -2,8 +2,6 @@ package com.example.project.clapp;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -82,6 +80,9 @@ public class HomePageActivity extends AppCompatActivity {
 
                         if (id == R.id.nav_profile) {
                             Intent intent = new Intent(HomePageActivity.this, ProfileActivity.class);
+                            startActivity(intent);
+                        } else if (id == R.id.nav_myevents) {
+                            Intent intent = new Intent(HomePageActivity.this, MyEvents.class);
                             startActivity(intent);
                         }
 
