@@ -11,25 +11,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class MyEvents extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+
+    int[] IMAGES = {R.drawable.photoshop, R.drawable.ilustrator};
+    String[] NAMES = {"Photoshop Workshop", "Ilustrator Workshop"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_my_events);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        View view = getLayoutInflater().inflate(R.layout.listeventlayout, null);
-        ImageView imageEvent=(ImageView)view.findViewById(R.id.imageView);
-        TextView textName = (TextView)view.findViewById(R.id.textName);
+
+
+
+        ListView listEvents = (ListView)findViewById(R.id.listEvents);
+        MyEvents.Adapter adaptador = new MyEvents.Adapter();
+        listEvents.setAdapter(adaptador);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -70,10 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
                         int id = menuItem.getItemId();
 
                         if (id == R.id.nav_profile) {
-                            Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
-                            startActivity(intent);
-                        } else if (id == R.id.nav_myevents) {
-                            Intent intent = new Intent(ProfileActivity.this, MyEvents.class);
+                            Intent intent = new Intent(MyEvents.this, ProfileActivity.class);
                             startActivity(intent);
                         }
 
@@ -88,7 +92,6 @@ public class ProfileActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
     }
 
     @Override
@@ -99,5 +102,34 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class Adapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return IMAGES.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.listeventlayout, null);
+            ImageView imageEvent=(ImageView)view.findViewById(R.id.imageView);
+            TextView textName = (TextView)view.findViewById(R.id.textName);
+
+            imageEvent.setImageResource(IMAGES[i]);
+            textName.setText(NAMES[i]);
+            return view;
+        }
     }
 }
