@@ -1,6 +1,9 @@
 package com.example.project.clapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +19,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.project.clapp.impl.EventFirebaseManager;
+import com.example.project.clapp.models.Event;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class HomePageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -136,12 +146,45 @@ public class HomePageActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.listeventlayout, null);
-            ImageView imageEvent=(ImageView)view.findViewById(R.id.imageView);
-            TextView textName = (TextView)view.findViewById(R.id.textName);
+            ImageView imageEvent = view.findViewById(R.id.imageView);
+            TextView textName = view.findViewById(R.id.textName);
 
-            imageEvent.setImageResource(IMAGES[i]);
-            textName.setText(NAMES[i]);
+            EventFirebaseManager efm = EventFirebaseManager.getInstance();
+
+            ArrayList<Event> events = efm.getEvents();
+
+            for (int z = 0; z < events.size(); z++) {
+                new DownloadImageTask(imageEvent)
+                        .execute("https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png");
+                textName.setText(events.get(i).getName());
+
+            }
             return view;
+        }
+
+        private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+            ImageView bmImage;
+
+            public DownloadImageTask(ImageView bmImage) {
+                this.bmImage = bmImage;
+            }
+
+            protected Bitmap doInBackground(String... urls) {
+                String urldisplay = urls[0];
+                Bitmap mIcon11 = null;
+                try {
+                    InputStream in = new java.net.URL(urldisplay).openStream();
+                    mIcon11 = BitmapFactory.decodeStream(in);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
+                return mIcon11;
+            }
+
+            protected void onPostExecute(Bitmap result) {
+                bmImage.setImageBitmap(result);
+            }
         }
     }
 
