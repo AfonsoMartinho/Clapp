@@ -32,8 +32,8 @@ public class EventFirebaseManager implements IEvent{
 
     @Override
     public ArrayList<Event> getEvents() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference dataEvents = database.getReference("https://clapp-28222.firebaseio.com/events");
+        DatabaseReference dataEvents;
+        dataEvents = FirebaseDatabase.getInstance().getReference();
 
         final ArrayList<Event> eventList = new ArrayList<Event>();
 
