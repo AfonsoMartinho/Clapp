@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,7 +20,6 @@ import android.widget.TextView;
 public class MyEvents extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-
     int[] IMAGES = {R.drawable.photoshop, R.drawable.ilustrator};
     String[] NAMES = {"Photoshop Workshop", "Ilustrator Workshop"};
 
@@ -40,6 +40,7 @@ public class MyEvents extends AppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
+        //hamburger
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {
                     @Override
@@ -92,6 +93,9 @@ public class MyEvents extends AppCompatActivity {
                         return true;
                     }
                 });
+
+
+
     }
 
     @Override
@@ -131,5 +135,10 @@ public class MyEvents extends AppCompatActivity {
             textName.setText(NAMES[i]);
             return view;
         }
+    }
+
+    public void createEvent(View view) {
+        Intent intent = new Intent(MyEvents.this, CreateEvent.class);
+        startActivity(intent);
     }
 }
