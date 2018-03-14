@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class HomePageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DrawerLayout mDrawerLayout;
+    private static final String TAG = "FirebaseTest";
 
     int[] IMAGES = {R.drawable.photoshop, R.drawable.ilustrator};
     String[] NAMES = {"Photoshop Workshop", "Ilustrator Workshop"};
@@ -157,6 +158,7 @@ public class HomePageActivity extends AppCompatActivity {
                 new DownloadImageTask(imageEvent)
                         .execute("https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png");
                 textName.setText(events.get(i).getName());
+                Log.d(TAG, events.get(i).getName());
 
             }
             return view;
