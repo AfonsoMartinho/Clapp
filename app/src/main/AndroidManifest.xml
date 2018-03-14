@@ -23,7 +23,8 @@
         </activity>
         <activity android:name=".HomePageActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".MyEvents"></activity>
+        <activity android:name=".MyEvents" />
+        <activity android:name=".CreateEvent"></activity>
     </application>
 
 </manifest>
