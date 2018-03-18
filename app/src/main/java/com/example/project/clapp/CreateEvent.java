@@ -14,6 +14,12 @@ public class CreateEvent extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EditText eventName;
+    private EditText eventLocal;
+    private EditText eventDate;
+    private EditText eventTime;
+    private EditText eventDur;
+    private EditText eventPrice;
+    private EditText eventDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +33,22 @@ public class CreateEvent extends AppCompatActivity {
     public void createEventFinal(View view) {
         mAuth = FirebaseAuth.getInstance();
         eventName = findViewById(R.id.nameEvent);
-        String event = eventName.getText().toString();
+        eventDate = findViewById(R.id.dateEvent);
+        eventTime = findViewById(R.id.timeEvent);
+        eventLocal = findViewById(R.id.localEvent);
+        eventDur = findViewById(R.id.durationEvent);
+        eventPrice = findViewById(R.id.priceEvent);
+        eventDesc = findViewById(R.id.descEvent);
+        String nameEvent = eventName.getText().toString();
+        String dateEvent = eventDate.getText().toString();
+        String timeEvent = eventTime.getText().toString();
+        String localEvent = eventLocal.getText().toString();
+        String durationEvent = eventDur.getText().toString();
+        String priceEvent = eventPrice.getText().toString();
+        String descEvent = eventDesc.getText().toString();
         FirebaseUser user = mAuth.getCurrentUser();
+
         EventFirebaseManager efm = EventFirebaseManager.getInstance();
-        efm.addEvent(event, user.getUid());
+        efm.addEvent(nameEvent, dateEvent, timeEvent, localEvent, durationEvent, priceEvent, descEvent, user.getUid());
     }
 }
