@@ -1,5 +1,7 @@
 package com.example.project.clapp.impl;
 
+import android.util.Log;
+
 import com.example.project.clapp.models.Event;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,9 +16,15 @@ import java.util.ArrayList;
  */
 
 public class EventFirebaseManager implements IEvent{
+    public ArrayList<Event> eventList = new ArrayList<>();
 
+
+    public ArrayList<Event> getEventList() {
+        return eventList;
+    }
 
     static EventFirebaseManager efm = null;
+    private static final String TAG = "FirebaseTest";
 
     public static EventFirebaseManager getInstance() {
         if(efm == null) {
@@ -31,36 +39,37 @@ public class EventFirebaseManager implements IEvent{
     }
 
     @Override
-    public ArrayList<Event> getEvents() {
+    public void getEvents() {
         DatabaseReference dataEvents;
         dataEvents = FirebaseDatabase.getInstance().getReference();
-
-        final ArrayList<Event> eventList = new ArrayList<Event>();
-
-
-        dataEvents.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Event event = dataSnapshot.getValue(Event.class);
-                eventList.add(event);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        return eventList;
+        DatabaseReference eventListRef = dataEvents.child("events");
+            eventListRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                        String id = ds.child("id").getValue(String.class);
+                        String nome = ds.child("name").getValue(String.class);
+                        String uID = ds.child("uID").getValue(String.class);
+                        Event event = new Event(id, nome, uID);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.toString());
+                }
+            });
     }
 
+
     @Override
-    public void addEvent(String nome, String userId) {
+    public void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, String priceEvent, String descEvent, String userId) {
         DatabaseReference databaseEvents;
         databaseEvents = FirebaseDatabase.getInstance().getReference();
-        Event event = new Event(nome, userId);
-        databaseEvents.child("events").child(nome).setValue(event);
+        DatabaseReference pushedPostRef = databaseEvents.push();
+        String postId = pushedPostRef.getKey();
+        System.out.println(postId);
+        Event event = new Event(postId, nameEvent, userId, "https://ih0.redbubble.net/image.342699943.3651/flat,800x800,070,f.u1.jpg", localEvent, dateEvent, timeEvent, durationEvent, descEvent, "", 0, 100, Integer.parseInt(priceEvent));
+        databaseEvents.child("events").child(postId).setValue(event);
 
     }
 }

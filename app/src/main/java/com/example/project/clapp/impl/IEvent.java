@@ -12,7 +12,9 @@ public interface IEvent {
 
     Event getEvent(int id);
 
-    ArrayList<Event> getEvents();
+    void getEvents();
 
-    void addEvent(String nome, String userId);
+    ArrayList<Event> getEventList();
+
+    void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, String priceEvent, String descEvent, String userId);
 }

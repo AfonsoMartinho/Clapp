@@ -1,9 +1,12 @@
 package com.example.project.clapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,26 +18,43 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.project.clapp.impl.EventFirebaseManager;
 import com.example.project.clapp.models.Event;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executor;
 
 public class HomePageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DrawerLayout mDrawerLayout;
     private static final String TAG = "FirebaseTest";
 
-    int[] IMAGES = {R.drawable.photoshop, R.drawable.ilustrator};
-    String[] NAMES = {"Photoshop Workshop", "Ilustrator Workshop"};
+    ArrayList<Event> EVENTS = new ArrayList<>();
+    ListAdapter eventAdapter;
+    ListView listEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +64,51 @@ public class HomePageActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        listEvents = findViewById(R.id.listEvents);
+
+        DatabaseReference dataEvents;
+        dataEvents = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference eventListRef = dataEvents.child("events");
+        eventListRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    String id = ds.child("id").getValue(String.class);
+                    String nome = ds.child("name").getValue(String.class);
+                    String uID = ds.child("uID").getValue(String.class);
+                    String imgURL = ds.child("imgURL").getValue(String.class);
+                    String date = ds.child("date").getValue(String.class);
+                    String time = ds.child("time").getValue(String.class);
+                    String local = ds.child("local").getValue(String.class);
+                    int maxR = ds.child("maxRegisters").getValue(int.class);
+                    int numR = ds.child("numRegister").getValue(int.class);
+                    String duration = ds.child("duration").getValue(String.class);
+                    int price = ds.child("preco").getValue(int.class);
+                    String descr = ds.child("descr").getValue(String.class);
+                    String userList = ds.child("userList").getValue(String.class);
+
+                    Event event = new Event(id, nome, uID, imgURL, local, date, time, duration, descr, userList, numR, maxR, price);
+                    EVENTS.add(event);
+                }
+                ListViewer(EVENTS);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, databaseError.toString());
+            }
+        });
 
 
 
-        ListView listEvents = (ListView)findViewById(R.id.listEvents);
-        Adapter adaptador = new Adapter();
-        listEvents.setAdapter(adaptador);
+        listEvents.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(HomePageActivity.this, EVENTS.get(position).getName(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -117,6 +176,8 @@ public class HomePageActivity extends AppCompatActivity {
         return super.getIntent();
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -127,67 +188,9 @@ public class HomePageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class Adapter extends BaseAdapter {
+    public void ListViewer(ArrayList<Event> EVENTS) {
+        eventAdapter = new EventAdapter(this, EVENTS);
+        listEvents.setAdapter(eventAdapter);
 
-        @Override
-        public int getCount() {
-            return IMAGES.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            view = getLayoutInflater().inflate(R.layout.listeventlayout, null);
-            ImageView imageEvent = view.findViewById(R.id.imageView);
-            TextView textName = view.findViewById(R.id.textName);
-
-            EventFirebaseManager efm = EventFirebaseManager.getInstance();
-
-            ArrayList<Event> events = efm.getEvents();
-
-            for (int z = 0; z < events.size(); z++) {
-                new DownloadImageTask(imageEvent)
-                        .execute("https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1200px-Adobe_Photoshop_CC_icon.svg.png");
-                textName.setText(events.get(i).getName());
-                Log.d(TAG, events.get(i).getName());
-
-            }
-            return view;
-        }
-
-        private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-            ImageView bmImage;
-
-            public DownloadImageTask(ImageView bmImage) {
-                this.bmImage = bmImage;
-            }
-
-            protected Bitmap doInBackground(String... urls) {
-                String urldisplay = urls[0];
-                Bitmap mIcon11 = null;
-                try {
-                    InputStream in = new java.net.URL(urldisplay).openStream();
-                    mIcon11 = BitmapFactory.decodeStream(in);
-                } catch (Exception e) {
-                    Log.e("Error", e.getMessage());
-                    e.printStackTrace();
-                }
-                return mIcon11;
-            }
-
-            protected void onPostExecute(Bitmap result) {
-                bmImage.setImageBitmap(result);
-            }
-        }
     }
-
 }
