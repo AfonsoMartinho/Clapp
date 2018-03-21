@@ -25,7 +25,7 @@ public class Authentication extends AppCompatActivity {
     private EditText emailUser;
     private EditText passUser;
     private TextView errorMessage;
-    private Button buttonLogin;
+    private Button buttonLogin, entrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,9 @@ public class Authentication extends AppCompatActivity {
         passUser = findViewById(R.id.inputPass);
         errorMessage = findViewById(R.id.errorMessage);
         buttonLogin = findViewById(R.id.buttonLogin);
+        entrar = findViewById(R.id.entrar);
+
+
 
     }
 
@@ -70,6 +73,11 @@ public class Authentication extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void entrar(View view) {
+        Intent intent = new Intent(Authentication.this, HomePageActivity.class);
+        startActivity(intent);
     }
 }
 

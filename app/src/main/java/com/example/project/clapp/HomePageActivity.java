@@ -13,6 +13,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -51,9 +53,10 @@ public class HomePageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DrawerLayout mDrawerLayout;
     private static final String TAG = "FirebaseTest";
+    RecyclerView rv;
 
     ArrayList<Event> EVENTS = new ArrayList<>();
-    ListAdapter eventAdapter;
+    private EventAdapter eventAdapter;
     ListView listEvents;
 
     @Override
@@ -64,7 +67,17 @@ public class HomePageActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        rv = findViewById(R.id.recyclerView);
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+
         listEvents = findViewById(R.id.listEvents);
+
+        Event event = new Event("fadas", "Rui", "asfa", "", "Aqui", "23/2/2019", "16:00", "2:00", "ola123", "", 0, 100, 0);
+        EVENTS.add(event);
+
 
         DatabaseReference dataEvents;
         dataEvents = FirebaseDatabase.getInstance().getReference();
@@ -90,25 +103,17 @@ public class HomePageActivity extends AppCompatActivity {
                     Event event = new Event(id, nome, uID, imgURL, local, date, time, duration, descr, userList, numR, maxR, price);
                     EVENTS.add(event);
                 }
-                ListViewer(EVENTS);
+                eventAdapter = new EventAdapter(EVENTS);
+                rv.setAdapter(eventAdapter);
             }
+
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(TAG, databaseError.toString());
             }
         });
 
-
-
-        listEvents.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(HomePageActivity.this, EVENTS.get(position).getName(), Toast.LENGTH_LONG).show();
-
-                    }
-                }
-        );
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -188,9 +193,4 @@ public class HomePageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void ListViewer(ArrayList<Event> EVENTS) {
-        eventAdapter = new EventAdapter(this, EVENTS);
-        listEvents.setAdapter(eventAdapter);
-
-    }
 }

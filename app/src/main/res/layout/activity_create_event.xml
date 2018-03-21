@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context="com.example.project.clapp.CreateEvent">
 
+    <EditText
+        android:id="@+id/capEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:layout_marginBottom="78dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/descEvent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="99dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Capacity:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
     <TextView
         android:id="@+id/textView10"
         android:layout_width="72dp"
@@ -66,7 +90,7 @@
         android:layout_width="136dp"
         android:layout_height="29dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="88dp"
         android:text="Description:"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -87,9 +111,9 @@
     <EditText
         android:id="@+id/nameEvent"
         android:layout_width="159dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="29dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="52dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintRight_toRightOf="parent"
@@ -122,90 +146,89 @@
 
     <EditText
         android:id="@+id/durationEvent"
-        android:layout_width="221dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="time"
         app:layout_constraintBottom_toTopOf="@+id/priceEvent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/timeEvent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView9" />
 
     <EditText
         android:id="@+id/priceEvent"
-        android:layout_width="221dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/descEvent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/durationEvent" />
+        app:layout_constraintBottom_toTopOf="@+id/capEvent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.615"
+        app:layout_constraintStart_toEndOf="@+id/textView11" />
 
     <EditText
         android:id="@+id/localEvent"
-        android:layout_width="221dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginRight="16dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="72dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/dateEvent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/nameEvent" />
 
     <EditText
         android:id="@+id/timeEvent"
-        android:layout_width="221dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:layout_marginBottom="117dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="86dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="time"
         app:layout_constraintBottom_toTopOf="@+id/durationEvent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/dateEvent" />
 
     <EditText
         android:id="@+id/dateEvent"
-        android:layout_width="221dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="86dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/timeEvent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/localEvent" />
 
     <EditText
         android:id="@+id/descEvent"
         android:layout_width="382dp"
-        android:layout_height="131dp"
+        android:layout_height="68dp"
         android:layout_marginBottom="6dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/createNew"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

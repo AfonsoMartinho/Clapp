@@ -29,7 +29,8 @@ public class UserFirebaseManager implements IUser {
         DatabaseReference databaseUsers;
         databaseUsers = FirebaseDatabase.getInstance().getReference();
         String name= "RENAME ME";
-        User user = new User(name,userId, mail);
+        int tele = 901356233;
+        User user = new User(name,userId, mail, tele, "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Luis_Filipe_Vieira.jpg/330px-Luis_Filipe_Vieira.jpg", 0, 50);
         databaseUsers.child("users").child(userId).setValue(user);
     }
 

@@ -128,8 +128,8 @@ public class MyEvents extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.listeventlayout, null);
-            ImageView imageEvent=(ImageView)view.findViewById(R.id.imageView);
-            TextView textName = (TextView)view.findViewById(R.id.textName);
+            ImageView imageEvent=(ImageView)view.findViewById(R.id.imgEvent);
+            TextView textName = (TextView)view.findViewById(R.id.nameEvent);
 
             imageEvent.setImageResource(IMAGES[i]);
             textName.setText(NAMES[i]);

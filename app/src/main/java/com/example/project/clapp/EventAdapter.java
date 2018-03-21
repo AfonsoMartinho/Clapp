@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -28,32 +31,64 @@ import java.util.ArrayList;
  * Created by ruigo on 16/03/2018.
  */
 
-class EventAdapter extends ArrayAdapter<Event> {
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
 
-    DatabaseReference dataEvents;
+    private ArrayList<Event> eventList;
+    private Context context;
 
-    public EventAdapter(@NonNull Context context, ArrayList<Event> events) {
-        super(context, R.layout.listeventlayout, events);
+
+
+
+    public EventAdapter(ArrayList<Event> eventList) {
+        this.eventList = eventList;
     }
 
-    @NonNull
+
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater eventInflater = LayoutInflater.from(getContext());
-        View customView = eventInflater.inflate(R.layout.listeventlayout, parent, false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        this.context = parent.getContext();
+        View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.listeventlayout, parent, false);
+        return new ViewHolder(viewItem);
+    }
 
-        Event singleItem = getItem(position);
-        TextView textName = customView.findViewById(R.id.textName);
-        ImageView imageEvent = customView.findViewById(R.id.imageView);
-        textName.setText(singleItem.getName());
-        new DownloadImageTask(imageEvent)
-                .execute(singleItem.getImgURL());
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final Event event = eventList.get(position);
+        holder.nameEvent.setText(event.getName());
+        holder.typeEvent.setText(event.getDescr());
+        holder.creatorEvent.setText(event.getuID());
+        holder.localEvent.setText(event.getLocal());
+        holder.hourEvent.setText(event.getTime());
+        new DownloadImageTask(holder.imageEvent)
+                .execute(event.getImgURL());
 
-        return customView;
+
 
     }
 
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    @Override
+    public int getItemCount() {
+        return eventList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        protected TextView nameEvent, typeEvent, creatorEvent, localEvent, hourEvent;
+        protected ImageView imageEvent;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            nameEvent = itemView.findViewById(R.id.nameEvent);
+            typeEvent = itemView.findViewById(R.id.typeEvent);
+            creatorEvent = itemView.findViewById(R.id.creatorEvent);
+            localEvent = itemView.findViewById(R.id.localEvent);
+            hourEvent = itemView.findViewById(R.id.hourEvent);
+            imageEvent = itemView.findViewById(R.id.imgEvent);
+
+        }
+
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {

@@ -25,7 +25,8 @@
         <activity android:name=".HomePageActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MyEvents" />
-        <activity android:name=".CreateEvent"></activity>
+        <activity android:name=".CreateEvent" />
+        <activity android:name=".EventActivity"></activity>
     </application>
 
 </manifest>

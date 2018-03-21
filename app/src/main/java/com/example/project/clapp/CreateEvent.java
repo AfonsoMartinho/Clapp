@@ -20,6 +20,7 @@ public class CreateEvent extends AppCompatActivity {
     private EditText eventDur;
     private EditText eventPrice;
     private EditText eventDesc;
+    private EditText eventCap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class CreateEvent extends AppCompatActivity {
         eventDur = findViewById(R.id.durationEvent);
         eventPrice = findViewById(R.id.priceEvent);
         eventDesc = findViewById(R.id.descEvent);
+        eventCap = findViewById(R.id.descEvent);
         String nameEvent = eventName.getText().toString();
         String dateEvent = eventDate.getText().toString();
         String timeEvent = eventTime.getText().toString();
@@ -46,9 +48,10 @@ public class CreateEvent extends AppCompatActivity {
         String durationEvent = eventDur.getText().toString();
         String priceEvent = eventPrice.getText().toString();
         String descEvent = eventDesc.getText().toString();
+        String capEvent = eventCap.getText().toString();
         FirebaseUser user = mAuth.getCurrentUser();
 
         EventFirebaseManager efm = EventFirebaseManager.getInstance();
-        efm.addEvent(nameEvent, dateEvent, timeEvent, localEvent, durationEvent, priceEvent, descEvent, user.getUid());
+        efm.addEvent(nameEvent, dateEvent, timeEvent, localEvent, durationEvent, priceEvent, descEvent, capEvent, user.getUid());
     }
 }

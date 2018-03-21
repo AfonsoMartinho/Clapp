@@ -16,5 +16,5 @@ public interface IEvent {
 
     ArrayList<Event> getEventList();
 
-    void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, String priceEvent, String descEvent, String userId);
+    void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, String priceEvent, String descEvent, String capEvent, String userId);
 }
