@@ -65,6 +65,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161352257463:android:503265786a631909",
+        "android_client_info": {
+          "package_name": "com.project.clapp.clapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161352257463-45bj5c1iujb1mo1kv4v74beq2ou0v8pp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.clapp.clapp",
+            "certificate_hash": "1a69be921214452bb73dd6764b7698dbe01f8c72"
+          }
+        },
+        {
+          "client_id": "161352257463-k2erm9os5le9jecqgi5odckjvv7fls7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvmaq1oTRUTLABG_gBC7KwnBBNxHg7eRw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161352257463-k2erm9os5le9jecqgi5odckjvv7fls7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"
