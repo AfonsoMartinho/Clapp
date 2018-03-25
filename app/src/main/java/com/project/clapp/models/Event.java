@@ -20,6 +20,8 @@ public class Event {
     private int maxRegisters;
     private int preco;
 
+    public Event() {}
+
     public Event(String name, String uID) {
         this.name = name;
         this.uID = uID;

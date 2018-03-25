@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.project.clapp.clapp.R;
+import com.project.clapp.R;
 import com.project.clapp.models.Event;
 
 import java.io.InputStream;

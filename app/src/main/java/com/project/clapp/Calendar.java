@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.project.clapp.clapp.R;
+import com.project.clapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
