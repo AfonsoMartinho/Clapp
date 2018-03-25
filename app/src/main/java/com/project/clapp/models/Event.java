@@ -1,4 +1,4 @@
-package com.project.clapp.clapp.models;
+package com.project.clapp.models;
 
 /**
  * Created by ruigo on 12/03/2018.

@@ -1,4 +1,4 @@
-package com.project.clapp.clapp;
+package com.project.clapp;
 
 
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.project.clapp.clapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

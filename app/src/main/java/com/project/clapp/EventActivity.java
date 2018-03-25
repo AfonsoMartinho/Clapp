@@ -1,7 +1,9 @@
-package com.project.clapp.clapp;
+package com.project.clapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.project.clapp.clapp.R;
 
 public class EventActivity extends AppCompatActivity {
 

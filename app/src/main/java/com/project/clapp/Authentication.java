@@ -1,4 +1,4 @@
-package com.project.clapp.clapp;
+package com.project.clapp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,7 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.project.clapp.clapp.impl.UserFirebaseManager;
+import com.project.clapp.clapp.R;
+import com.project.clapp.impl.UserFirebaseManager;
 
 public class Authentication extends AppCompatActivity {
 

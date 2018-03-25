@@ -1,4 +1,4 @@
-package com.project.clapp.clapp;
+package com.project.clapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.project.clapp.clapp.models.Event;
+import com.project.clapp.clapp.R;
+import com.project.clapp.models.Event;
 
 import java.io.InputStream;
 import java.util.ArrayList;

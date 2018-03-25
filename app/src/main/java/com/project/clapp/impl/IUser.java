@@ -1,7 +1,7 @@
-package com.project.clapp.clapp.impl;
+package com.project.clapp.impl;
 
 
-import com.project.clapp.clapp.models.User;
+import com.project.clapp.models.User;
 
 /**
  * Created by Afonso on 11/03/2018.

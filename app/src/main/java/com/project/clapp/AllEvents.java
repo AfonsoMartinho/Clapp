@@ -1,4 +1,4 @@
-package com.project.clapp.clapp;
+package com.project.clapp;
 
 
 import android.os.Bundle;
@@ -18,7 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.project.clapp.clapp.models.Event;
+import com.project.clapp.clapp.R;
+import com.project.clapp.models.Event;
+
 
 import java.util.ArrayList;
 

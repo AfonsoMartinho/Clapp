@@ -1,6 +1,6 @@
-package com.project.clapp.clapp.impl;
+package com.project.clapp.impl;
 
-import com.project.clapp.clapp.models.Event;
+import com.project.clapp.models.Event;
 
 import java.util.ArrayList;
 
