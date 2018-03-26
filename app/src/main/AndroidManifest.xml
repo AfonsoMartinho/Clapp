@@ -21,7 +21,7 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EventActivity" />
-        <activity android:name="com.project.clapp.CreateEvent"></activity>
+        <activity android:name=".CreateEvent"></activity>
     </application>
 
 </manifest>
