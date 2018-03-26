@@ -4,8 +4,10 @@
     <modules>
       <module fileurl="file://C:\Users\ruigo\OneDrive\Documentos\GitHub\Clapp\CLApp2.iml" filepath="C:\Users\ruigo\OneDrive\Documentos\GitHub\Clapp\CLApp2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Clapp.iml" filepath="$PROJECT_DIR$/Clapp.iml" />
+      <module fileurl="file://C:\Users\ruigo\OneDrive\Documentos\GitHub\Clapp\Clapp.iml" filepath="C:\Users\ruigo\OneDrive\Documentos\GitHub\Clapp\Clapp.iml" />
       <module fileurl="file://C:\Users\Rui Gomes\Documents\Clapp\Clapp.iml" filepath="C:\Users\Rui Gomes\Documents\Clapp\Clapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\ruigo\OneDrive\Documentos\GitHub\Clapp\app\app.iml" filepath="C:\Users\ruigo\OneDrive\Documentos\GitHub\Clapp\app\app.iml" />
       <module fileurl="file://C:\Users\Rui Gomes\Documents\Clapp\app\app.iml" filepath="C:\Users\Rui Gomes\Documents\Clapp\app\app.iml" />
     </modules>
   </component>
