@@ -42,7 +42,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/eventNameTxt"
                 android:layout_width="261dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -58,7 +58,7 @@
                 android:layout_marginTop="7dp"
                 android:text="Nome:"
                 android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/editText"
+                app:layout_constraintEnd_toStartOf="@+id/eventNameTxt"
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
@@ -94,11 +94,24 @@
                 android:id="@+id/textView7"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="40dp"
                 android:text="Time"
                 android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/textView12"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="40dp"
+                android:text="Duration"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -131,19 +144,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="40dp"
-                android:text="Extras"
+                android:text="Limit"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageButton3" />
 
             <TextView
                 android:id="@+id/textView11"
-                android:layout_width="60dp"
+                android:layout_width="79dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="40dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="40dp"
-                android:text="Tags"
+                android:text="Description"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/textView10"
                 app:layout_constraintRight_toRightOf="parent"
@@ -156,6 +169,7 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
+                android:onClick="addDate"
                 android:src="@android:drawable/ic_menu_my_calendar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -164,10 +178,11 @@
                 android:id="@+id/imageButton3"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="addTime"
                 android:src="@android:drawable/ic_lock_idle_alarm"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageButton2"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
             <ImageButton
@@ -197,7 +212,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
+                android:onClick="addLimit"
                 android:src="@drawable/ic_menu_manage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -209,10 +225,24 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
+                android:onClick="addDescription"
                 android:src="@android:drawable/btn_star_big_on"
                 app:layout_constraintEnd_toStartOf="@+id/imageButton8"
                 app:layout_constraintStart_toEndOf="@+id/imageButton7"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:onClick="addDuration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                app:srcCompat="@drawable/ic_menu_send" />
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
@@ -222,9 +252,10 @@
         android:layout_height="74dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
 
@@ -232,6 +263,8 @@
             android:id="@+id/createBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Button" />
+            android:onClick="createEvent"
+            android:text="Create" />
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
