@@ -75,6 +75,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "161352257463-kvv6dmnqf90bah6an0pclth082cc5r6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.clapp.clapp",
+            "certificate_hash": "f2720d8505690b3eab0e30004e6fe1bc503d49d9"
+          }
+        },
+        {
           "client_id": "161352257463-45bj5c1iujb1mo1kv4v74beq2ou0v8pp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
