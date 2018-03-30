@@ -8,7 +8,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,7 +24,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,8 +49,12 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     private String time = "";
     private String limit = "";
     private String desc = "";
+    private String namelatlng = "";
     private StorageReference mStorageRef;
     Integer REQUEST_CAMERA=1, SELECT_FILE=0;
+    private static final String TAG = "Check";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
+    private static final int REQUEST_LOCATION = 12;
 
 
     @Override
@@ -105,6 +111,12 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                 saveImage(getImageUri(this, bmp));
             } else if (requestCode==SELECT_FILE) {
 
+            } else if (requestCode==REQUEST_LOCATION) {
+                Bundle bundle = data.getExtras();
+                String name = bundle.get("name").toString();
+                String latlong = bundle.get("latlng").toString();
+                namelatlng = name + latlong;
+                Log.d(TAG, namelatlng);
             }
         }
     }
@@ -220,6 +232,8 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         mLimitDialog.show();
     }
 
+
+
     public void addDescription(View view) {
         final Dialog mDescriptionDialog = new Dialog(this);
         mDescriptionDialog.setTitle("Description");
@@ -264,9 +278,43 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
 
     public void createEvent(View view) {
-        EventFirebaseManager efm = EventFirebaseManager.getInstance();
-        efm.addEvent(nameTxt.getText().toString(),date,time,"local",duration,"price",desc,limit,"12221231");
+
+        Log.d(TAG, namelatlng);
+        //EventFirebaseManager efm = EventFirebaseManager.getInstance();
+        //efm.addEvent(nameTxt.getText().toString(),date,time,"local",duration,"price",desc,limit,"12221231");
 
     }
+
+    //MAP
+
+    public void addLocation(View view) {
+        if(isServicesOK()) {
+            initMap();
+        }
+    }
+
+    private void initMap() {
+        Intent intent = new Intent(CreateEvent.this, MapActivity.class);
+        startActivityForResult(intent, REQUEST_LOCATION);
+    }
+
+    public boolean isServicesOK() {
+        Log.d(TAG, "isServicesOK: checking google services version");
+
+        int avaiable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(CreateEvent.this);
+        if(avaiable == ConnectionResult.SUCCESS) {
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+            return true;
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(avaiable)) {
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(CreateEvent.this, avaiable, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        } else {
+            Toast.makeText(this, "You can't make map request", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+
+    }
+
 
 }
