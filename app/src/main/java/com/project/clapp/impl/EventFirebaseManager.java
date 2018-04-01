@@ -65,14 +65,29 @@ public class EventFirebaseManager implements IEvent{
 
 
     @Override
-    public void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, String priceEvent, String descEvent, String capEvent, String userId) {
+    public void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, double priceEvent, String descEvent, int capEvent, String userId, double latitude, double longitude, String imgURL, String tags) {
         DatabaseReference databaseEvents;
         databaseEvents = FirebaseDatabase.getInstance().getReference();
         DatabaseReference pushedPostRef = databaseEvents.push();
         String postId = pushedPostRef.getKey();
-        System.out.println(postId);
+        String userList = userId;
         Log.d("addEvent","entrou");
-        Event event = new Event("1", nameEvent, userId, "https://ih0.redbubble.net/image.342699943.3651/flat,800x800,070,f.u1.jpg", localEvent, dateEvent, timeEvent, durationEvent, descEvent, "uers", 0, 0, 0);
+        Event event = new Event("1",
+                nameEvent,
+                userId,
+                imgURL,
+                localEvent,
+                latitude,
+                longitude,
+                dateEvent,
+                timeEvent,
+                durationEvent,
+                descEvent,
+                userList,
+                0,
+                capEvent,
+                priceEvent,
+                tags);
         databaseEvents.child("events").child(postId).setValue(event);
 
     }

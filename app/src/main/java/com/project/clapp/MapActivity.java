@@ -88,8 +88,11 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.On
             @Override
             public void onClick(View v) {
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("name", myPlace.getName().toString());
-                returnIntent.putExtra("latlng", myPlace.getLatLng().toString());
+                double latitude = myPlace.getLatLng().latitude;
+                double longitude = myPlace.getLatLng().longitude;
+                returnIntent.putExtra("address", myPlace.getAddress());
+                returnIntent.putExtra("latitude", latitude);
+                returnIntent.putExtra("longitude", longitude);
                 setResult(CreateEvent.RESULT_OK,returnIntent);
                 finish();
             }

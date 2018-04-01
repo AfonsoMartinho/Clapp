@@ -11,6 +11,8 @@ public class Event {
     private String uID;
     private String imgURL;
     private String local;
+    private double latitude;
+    private double longitude;
     private String date;
     private String time;
     private String duration;
@@ -18,7 +20,8 @@ public class Event {
     private String userList;
     private int numRegister;
     private int maxRegisters;
-    private int preco;
+    private double preco;
+    private String tags;
 
     public Event() {}
 
@@ -33,7 +36,7 @@ public class Event {
         this.uID = uID;
     }
 
-    public Event(String id, String name, String uID, String imgURL, String local, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, int preco) {
+    public Event(String id, String name, String uID, String imgURL, String local, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double preco) {
         this.id = id;
         this.name = name;
         this.uID = uID;
@@ -47,6 +50,25 @@ public class Event {
         this.numRegister = numRegister;
         this.maxRegisters = maxRegisters;
         this.preco = preco;
+    }
+
+    public Event(String id, String name, String uID, String imgURL, String local, double latitude, double longitude, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double preco, String tags) {
+        this.id = id;
+        this.name = name;
+        this.uID = uID;
+        this.imgURL = imgURL;
+        this.local = local;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.date = date;
+        this.time = time;
+        this.duration = duration;
+        this.descr = descr;
+        this.userList = userList;
+        this.numRegister = numRegister;
+        this.maxRegisters = maxRegisters;
+        this.preco = preco;
+        this.tags = tags;
     }
 
     public String getId() {
@@ -129,11 +151,11 @@ public class Event {
         this.maxRegisters = maxRegisters;
     }
 
-    public int getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public void setPreco(int preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
 
@@ -151,5 +173,29 @@ public class Event {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }

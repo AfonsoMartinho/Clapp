@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -30,6 +29,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -50,14 +51,22 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     private String duration = "";
     private String date = "";
     private String time = "";
-    private String limit = "";
+    private int limit = 0;
     private String desc = "";
-    private String namelatlng = "";
+    private String name = "";
+    private String local = "";
+    private String userId = "";
+    private double preco = 0;
+    private double latitude = 0;
+    private double longitude = 0;
+    private Bitmap bmp;
+    private String tags = "";
+    private String imgURL = "";
     private StorageReference mStorageRef;
-    Integer REQUEST_CAMERA=1, SELECT_FILE=0;
     private static final String TAG = "Check";
     private static final int ERROR_DIALOG_REQUEST = 9001;
-    private static final int REQUEST_LOCATION = 12;
+    private static final int REQUEST_CAMERA = 1, SELECT_FILE = 2, REQUEST_LOCATION = 3;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -65,6 +74,9 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new);
         nameTxt = findViewById(R.id.eventNameTxt);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userId = user.getUid();
 
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -84,7 +96,8 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
     public void saveImage(Uri file) {
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference eventImg = mStorageRef.child("events").child(file.getLastPathSegment());
+        imgURL = name + file.getLastPathSegment();
+        StorageReference eventImg = mStorageRef.child("events").child(name + file.getLastPathSegment());
         eventImg.putFile(file)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -110,16 +123,16 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         if(resultCode== Activity.RESULT_OK) {
             if (requestCode==REQUEST_CAMERA) {
                 Bundle bundle = data.getExtras();
-                Bitmap bmp = (Bitmap) bundle.get("data");
-                saveImage(getImageUri(this, bmp));
+                bmp = (Bitmap) bundle.get("data");
+
             } else if (requestCode==SELECT_FILE) {
 
             } else if (requestCode==REQUEST_LOCATION) {
                 Bundle bundle = data.getExtras();
-                String name = bundle.get("name").toString();
-                String latlong = bundle.get("latlng").toString();
-                namelatlng = name + latlong;
-                Log.d(TAG, namelatlng);
+                local = bundle.get("address").toString();
+                longitude = Double.parseDouble(bundle.get("longitude").toString());
+                latitude = Double.parseDouble(bundle.get("latitude").toString());
+
             }
         }
     }
@@ -228,7 +241,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "" + limitTxt.getText());
-                limit += limitTxt +"";
+                limit = Integer.parseInt(limitTxt.getText().toString());
                 mLimitDialog.dismiss();
             }
         });
@@ -282,9 +295,23 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
     public void createEvent(View view) {
 
-
+        name = nameTxt.getText().toString();
+        saveImage(getImageUri(this, bmp));
         EventFirebaseManager efm = EventFirebaseManager.getInstance();
-        efm.addEvent(nameTxt.getText().toString(),date,time,"local",duration,"price",desc,limit,"12221231");
+        efm.addEvent(
+                name,
+                date,
+                time,
+                local,
+                duration,
+                preco,
+                desc,
+                limit,
+                userId,
+                latitude,
+                longitude,
+                imgURL,
+                tags);
     }
 
     //MAP
