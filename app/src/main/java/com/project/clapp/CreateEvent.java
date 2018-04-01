@@ -30,10 +30,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.clapp.impl.EventFirebaseManager;
+import com.project.clapp.models.Event;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
@@ -66,14 +69,14 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                Log.d("create", "onDateSet: date: " + i + "/" + i1 + "/" + i2);
+                Log.d(TAG, "onDateSet: date: " + i + "/" + i1 + "/" + i2);
                 date += i + "/" + i1 + "/" + i2;
             }
         };
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                Log.d("create", "onTimeSet: time: " + i + ":" + i1);
+                Log.d(TAG, "onTimeSet: time: " + i + ":" + i1);
                 time += i + ":" + i1;
             }
         };
@@ -165,7 +168,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     //Adding a Listener for the number picker (the one that stores de duration of the event)
     @Override
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-        Log.d("number", "" + i1);
+        Log.d(TAG, "" + i1);
     }
 
 
@@ -197,9 +200,9 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("days", "" + np1.getValue());
-                Log.d("hours", "" + np2.getValue());
-                Log.d("minutes", "" + np3.getValue());
+                Log.d(TAG, "" + np1.getValue());
+                Log.d(TAG, "" + np2.getValue());
+                Log.d(TAG, "" + np3.getValue());
                 duration += np1.getValue() +"D"+np2.getValue()+"H"+np3.getValue()+"m";
                 mDurationDialog.dismiss();
             }
@@ -224,7 +227,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("limit", "" + limitTxt.getText());
+                Log.d(TAG, "" + limitTxt.getText());
                 limit += limitTxt +"";
                 mLimitDialog.dismiss();
             }
@@ -244,7 +247,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("description", "" + descTxt.getText());
+                Log.d(TAG, "" + descTxt.getText());
                 desc += descTxt.getText();
                 mDescriptionDialog.dismiss();
             }
@@ -279,10 +282,9 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
     public void createEvent(View view) {
 
-        Log.d(TAG, namelatlng);
-        //EventFirebaseManager efm = EventFirebaseManager.getInstance();
-        //efm.addEvent(nameTxt.getText().toString(),date,time,"local",duration,"price",desc,limit,"12221231");
 
+        EventFirebaseManager efm = EventFirebaseManager.getInstance();
+        efm.addEvent(nameTxt.getText().toString(),date,time,"local",duration,"price",desc,limit,"12221231");
     }
 
     //MAP
