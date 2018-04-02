@@ -1,27 +1,30 @@
 package com.project.clapp.models;
 
+import org.parceler.Parcel;
+
 /**
  * Created by ruigo on 12/03/2018.
  */
 
+@Parcel
 public class Event {
 
-    private String id;
-    private String name;
-    private String uID;
-    private String imgURL;
-    private String local;
-    private double latitude;
-    private double longitude;
-    private String date;
-    private String time;
-    private String duration;
-    private String descr;
-    private String userList;
-    private int numRegister;
-    private int maxRegisters;
-    private double preco;
-    private String tags;
+    public String id;
+    public String name;
+    public String uID;
+    public String imgURL;
+    public String local;
+    public double latitude;
+    public double longitude;
+    public String date;
+    public String time;
+    public String duration;
+    public String descr;
+    public String userList;
+    public int numRegister;
+    public int maxRegisters;
+    public double preco;
+    public String tags;
 
     public Event() {}
 

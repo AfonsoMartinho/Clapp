@@ -18,10 +18,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -40,7 +43,9 @@ import com.project.clapp.impl.EventFirebaseManager;
 import com.project.clapp.models.Event;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CreateEvent extends AppCompatActivity implements NumberPicker.OnValueChangeListener {
 
@@ -104,6 +109,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        imgURL = downloadUrl.toString();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -247,6 +253,25 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         });
         mLimitDialog.show();
     }
+    /*public void addTags() {
+
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.radiobutton_dialog);
+        List<String> stringList=new ArrayList<>();  // here is list
+        for(int i=0;i<5;i++) {
+            stringList.add("RadioButton " + (i + 1));
+        }
+        RadioGroup rg = dialog.findViewById(R.id.radio_group);
+
+        for(int i=0;i<stringList.size();i++){
+            RadioButton rb=new RadioButton(this); // dynamically creating RadioButton and adding to RadioGroup.
+            rb.setText(stringList.get(i));
+            rg.addView(rb);
+        }
+        dialog.show();
+    }*/
 
 
 

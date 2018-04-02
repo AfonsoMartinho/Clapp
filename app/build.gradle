@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:12.0.0'
     implementation 'com.google.android.gms:play-services-location:12.0.0'
     implementation 'com.google.android.gms:play-services-places:12.0.0'
+    implementation 'org.parceler:parceler-api:1.1.10'
 }
 
 apply plugin: 'com.google.gms.google-services'

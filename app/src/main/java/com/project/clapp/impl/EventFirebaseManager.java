@@ -72,7 +72,7 @@ public class EventFirebaseManager implements IEvent{
         String postId = pushedPostRef.getKey();
         String userList = userId;
         Log.d("addEvent","entrou");
-        Event event = new Event("1",
+        Event event = new Event(postId,
                 nameEvent,
                 userId,
                 imgURL,
@@ -84,7 +84,7 @@ public class EventFirebaseManager implements IEvent{
                 durationEvent,
                 descEvent,
                 userList,
-                0,
+                1,
                 capEvent,
                 priceEvent,
                 tags);
