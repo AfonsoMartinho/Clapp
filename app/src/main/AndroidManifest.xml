@@ -18,12 +18,12 @@
         android:theme="@style/AppTheme">
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAaIvGAWElbKAc-whulIeGbuX0PKm_h9d8" />
-
-        <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAaIvGAWElbKAc-whulIeGbuX0PKm_h9d8" />
 
         <activity android:name=".Authentication">
             <intent-filter>

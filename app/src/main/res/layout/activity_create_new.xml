@@ -69,9 +69,10 @@
         android:layout_height="287dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
@@ -153,13 +154,23 @@
                 android:id="@+id/textView11"
                 android:layout_width="79dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginLeft="88dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginTop="40dp"
+                android:text="Tags"
+                android:textAlignment="center"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/imageButton4" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="79dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="40dp"
                 android:text="Description"
                 android:textAlignment="center"
-                app:layout_constraintEnd_toStartOf="@+id/textView10"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
                 app:layout_constraintTop_toBottomOf="@+id/imageButton4" />
 
@@ -224,12 +235,23 @@
                 android:id="@+id/imageButton9"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
                 android:onClick="addDescription"
                 android:src="@android:drawable/btn_star_big_on"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton8"
+                app:layout_constraintStart_toEndOf="@+id/imageButton7"
+                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="8dp"
+                android:onClick="addTags"
+                android:src="@drawable/hashsip"
                 app:layout_constraintStart_toEndOf="@+id/imageButton7"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
 

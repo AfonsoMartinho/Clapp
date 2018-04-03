@@ -253,25 +253,44 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         });
         mLimitDialog.show();
     }
-    /*public void addTags() {
+    public void addTags(View view) {
 
-        // custom dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.radiobutton_dialog);
-        List<String> stringList=new ArrayList<>();  // here is list
-        for(int i=0;i<5;i++) {
-            stringList.add("RadioButton " + (i + 1));
-        }
-        RadioGroup rg = dialog.findViewById(R.id.radio_group);
+        final CharSequence[] items = {"Workshop","Lecture","Documentary","Tutorial","Dinner","Fun Activity"};
 
-        for(int i=0;i<stringList.size();i++){
-            RadioButton rb=new RadioButton(this); // dynamically creating RadioButton and adding to RadioGroup.
-            rb.setText(stringList.get(i));
-            rg.addView(rb);
-        }
+        final ArrayList seletedItems=new ArrayList();
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Select the tags for the Event")
+                .setMultiChoiceItems(items, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            seletedItems.add(indexSelected);
+                        } else if (seletedItems.contains(indexSelected)) {
+                            // Else, if the item is already in the array, remove it
+                            seletedItems.remove(Integer.valueOf(indexSelected));
+                        }
+                    }
+                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Your code when user clicked on OK
+                        //  You can write the code  to save the selected item here
+                        for (int i = 0; i < seletedItems.size(); i++) {
+                            tags = tags + "," + seletedItems.get(i).toString();
+                        }
+                        tags = tags.substring(1);
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Your code when user clicked on Cancel
+                    }
+                }).create();
         dialog.show();
-    }*/
+    }
 
 
 
