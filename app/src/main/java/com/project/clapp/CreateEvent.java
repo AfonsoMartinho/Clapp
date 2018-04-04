@@ -22,13 +22,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -38,18 +35,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.clapp.impl.EventFirebaseManager;
-import com.project.clapp.models.Event;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class CreateEvent extends AppCompatActivity implements NumberPicker.OnValueChangeListener {
 
@@ -92,14 +85,15 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 Log.d(TAG, "onDateSet: date: " + i + "/" + i1 + "/" + i2);
-                date += i + "/" + i1 + "/" + i2;
+                final CharSequence[] items = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Set", "Oct", "Nov", "Dec"};
+                date += items[i1] + " " + i2 + " " + i;
             }
         };
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 Log.d(TAG, "onTimeSet: time: " + i + ":" + i1);
-                time += i + ":" + i1;
+                time += i + ":" + i1 + "UTC";
             }
         };
     }
@@ -320,8 +314,8 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
     public void addImage(View view) {
 
-            final CharSequence[] items = { "Take Photo", "Choose from Library",
-                    "Cancel" };
+            final CharSequence[] items = {"Take Photo", "Choose from Library",
+                    "Cancel"};
             AlertDialog.Builder builder = new AlertDialog.Builder(CreateEvent.this);
             builder.setTitle("Add Photo!");
             builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -331,7 +325,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, REQUEST_CAMERA);
                     } else if (items[item].equals("Choose from Library")) {
-                        Intent intent = new Intent(Intent.ACTION_PICK,  MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("images/*");
                         startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_FILE);
                     } else if (items[item].equals("Cancel")) {
@@ -351,6 +345,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         name = nameTxt.getText().toString();
         if (checkPermissionREAD_EXTERNAL_STORAGE(this)) {
             saveImage(getImageUri(this, bmp));
+        }
             EventFirebaseManager efm = EventFirebaseManager.getInstance();
             efm.addEvent(
                     name,
@@ -366,7 +361,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                     longitude,
                     imgURL,
                     tags);
-        }
+
     }
 
     //MAP

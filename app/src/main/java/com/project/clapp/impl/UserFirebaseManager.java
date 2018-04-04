@@ -29,10 +29,12 @@ public class UserFirebaseManager implements IUser {
     public void addUser(String userId, String mail) {
         DatabaseReference databaseUsers;
         databaseUsers = FirebaseDatabase.getInstance().getReference();
-        String name= "RENAME ME";
-        int tele = 901356233;
-        User user = new User(name,userId, mail, tele, "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Luis_Filipe_Vieira.jpg/330px-Luis_Filipe_Vieira.jpg", 0, 50);
-        databaseUsers.child("users").child(userId).setValue(user);
+        if (databaseUsers.child("users").child(userId).equals(null)) {
+            String name= "RENAME ME";
+            int tele = 901356233;
+            User user = new User(name,userId, mail, tele, "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Luis_Filipe_Vieira.jpg/330px-Luis_Filipe_Vieira.jpg", 0, 50);
+            databaseUsers.child("users").child(userId).setValue(user);
+        }
     }
 
 

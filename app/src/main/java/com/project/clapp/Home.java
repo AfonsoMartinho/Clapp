@@ -101,9 +101,9 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.allEvents) {
             setTitle("All Events");
-            AllEvents wow = new AllEvents();
+            AllEvents allEvents = new AllEvents();
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.fragment, wow).commit();
+            fm.beginTransaction().replace(R.id.fragment, allEvents).commit();
         } else if (id == R.id.qrCode) {
 
         } else if (id == R.id.geolocation) {

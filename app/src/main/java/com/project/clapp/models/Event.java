@@ -33,6 +33,13 @@ public class Event {
         this.uID = uID;
     }
 
+    public Event(String id, String name, String date, String time) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.time = time;
+    }
+
     public Event(String id, String name, String uID) {
         this.id = id;
         this.name = name;

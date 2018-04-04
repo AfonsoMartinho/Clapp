@@ -12,9 +12,15 @@ import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.project.clapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +32,8 @@ import java.util.Locale;
 public class Calendar extends Fragment {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+    ArrayList<com.project.clapp.models.Event> EVENTS = new ArrayList<>();
+    CompactCalendarView compactCalendarView;
 
     public Calendar() {
         // Required empty public constructor
@@ -39,7 +47,7 @@ public class Calendar extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-        final CompactCalendarView compactCalendarView = (CompactCalendarView) rootView.findViewById(R.id.compactcalendar_view);
+        compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
 
@@ -50,8 +58,7 @@ public class Calendar extends Fragment {
         final TextView month = rootView.findViewById(R.id.monthName);
         month.setText(dateFormat.format(System.currentTimeMillis()));
 
-        Event ev1 = new Event(Color.GREEN, 1522102268000L, "There we go");
-        compactCalendarView.addEvent(ev1);
+        getEvents();
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -69,6 +76,53 @@ public class Calendar extends Fragment {
 
         return rootView;
 
+
+    }
+
+    public void getEvents() {
+        DatabaseReference dataEvents;
+        dataEvents = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference eventListRef = dataEvents.child("events");
+        eventListRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                EVENTS.clear();
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    String id = ds.child("id").getValue(String.class);
+                    String name = ds.child("name").getValue(String.class);
+                    String date = ds.child("date").getValue(String.class);
+                    String time = ds.child("time").getValue(String.class);
+                    com.project.clapp.models.Event event = new com.project.clapp.models.Event(id, name, date, time);
+                    EVENTS.add(event);
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("error", databaseError.toString());
+            }
+        });
+
+        for (int i = 0; i < EVENTS.size(); i++) {
+            toMillis(EVENTS.get(i));
+        }
+    }
+
+    public void toMillis(com.project.clapp.models.Event event) {
+        String str = event.getDate() + " " + event.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("mmm dd YYYY HH:mm");
+        Date date = null;
+        try {
+            date = df.parse(str);
+            long epoch = date.getTime();
+            System.out.println(epoch);
+            Event ev1 = new Event(Color.GREEN, epoch, event.getName());
+            compactCalendarView.addEvent(ev1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
