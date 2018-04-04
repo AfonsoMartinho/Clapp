@@ -23,7 +23,7 @@ public class Event {
     public String userList;
     public int numRegister;
     public int maxRegisters;
-    public double preco;
+    public double priceEvent;
     public String tags;
 
     public Event() {}
@@ -46,7 +46,7 @@ public class Event {
         this.uID = uID;
     }
 
-    public Event(String id, String name, String uID, String imgURL, String local, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double preco) {
+    public Event(String id, String name, String uID, String imgURL, String local, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double priceEvent) {
         this.id = id;
         this.name = name;
         this.uID = uID;
@@ -59,10 +59,10 @@ public class Event {
         this.userList = userList;
         this.numRegister = numRegister;
         this.maxRegisters = maxRegisters;
-        this.preco = preco;
+        this.priceEvent = priceEvent;
     }
 
-    public Event(String id, String name, String uID, String imgURL, String local, double latitude, double longitude, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double preco, String tags) {
+    public Event(String id, String name, String uID, String imgURL, String local, double latitude, double longitude, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double priceEvent, String tags) {
         this.id = id;
         this.name = name;
         this.uID = uID;
@@ -77,7 +77,7 @@ public class Event {
         this.userList = userList;
         this.numRegister = numRegister;
         this.maxRegisters = maxRegisters;
-        this.preco = preco;
+        this.priceEvent = priceEvent;
         this.tags = tags;
     }
 
@@ -161,12 +161,12 @@ public class Event {
         this.maxRegisters = maxRegisters;
     }
 
-    public double getPreco() {
-        return preco;
+    public double getPriceEvent() {
+        return priceEvent;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setPriceEvent(double priceEvent) {
+        this.priceEvent = priceEvent;
     }
 
     public String getDate() {

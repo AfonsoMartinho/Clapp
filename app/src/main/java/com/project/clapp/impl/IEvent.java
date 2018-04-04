@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 public interface IEvent {
 
-    Event getEvent(int id);
-
-    void getEvents();
+    Event getEvent(String id);
 
     ArrayList<Event> getEventList();
+
+    void setEvents(Event event);
 
     void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, double priceEvent, String descEvent, int capEvent, String userId, double latitude, double longitude, String imgURL, String tags);
 }

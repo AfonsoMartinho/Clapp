@@ -13,12 +13,11 @@
 
         <LinearLayout
             android:id="@+id/linearLayout6"
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimaryDark"
             android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -27,17 +26,26 @@
                 android:id="@+id/monthName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="TextView"
-                android:textSize="24sp" />
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/yearName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="TextView"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="395dp"
-            android:layout_height="295dp"
-            android:layout_marginBottom="272dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/linearLayout10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="332dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,15 +55,15 @@
             <com.github.sundeepk.compactcalendarview.CompactCalendarView
                 android:id="@+id/compactcalendar_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="260dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                app:compactCalendarBackgroundColor="#4286f4"
-                app:compactCalendarCurrentDayBackgroundColor="#000"
-                app:compactCalendarCurrentSelectedDayBackgroundColor="#F00"
+                app:compactCalendarBackgroundColor="#00ffff"
+                app:compactCalendarCurrentDayBackgroundColor="#fff"
+                app:compactCalendarCurrentSelectedDayBackgroundColor="@android:color/holo_orange_dark"
                 app:compactCalendarMultiEventIndicatorColor="#fff"
                 app:compactCalendarTargetHeight="250dp"
-                app:compactCalendarTextColor="#fff"
+                app:compactCalendarTextColor="#000"
                 app:compactCalendarTextSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,5 +74,28 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="Event List"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout10" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

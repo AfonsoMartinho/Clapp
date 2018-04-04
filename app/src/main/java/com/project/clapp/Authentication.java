@@ -36,6 +36,8 @@ public class Authentication extends AppCompatActivity {
         errorMessage = findViewById(R.id.errorMessage);
         imgView = findViewById(R.id.imgIcon);
         imgView.setImageResource(R.drawable.hashsip);
+
+        mAuth.signOut();
     }
 
     public void login(View view) {
