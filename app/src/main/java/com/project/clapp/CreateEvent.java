@@ -257,7 +257,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
         final CharSequence[] items = {"Workshop","Lecture","Documentary","Tutorial","Dinner","Fun Activity"};
 
-        final ArrayList seletedItems=new ArrayList();
+        final ArrayList selectedItems=new ArrayList();
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Select the tags for the Event")
@@ -266,19 +266,20 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                     public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
                         if (isChecked) {
                             // If the user checked the item, add it to the selected items
-                            seletedItems.add(indexSelected);
-                        } else if (seletedItems.contains(indexSelected)) {
+                            selectedItems.add(indexSelected);
+                        } else if (selectedItems.contains(indexSelected)) {
                             // Else, if the item is already in the array, remove it
-                            seletedItems.remove(Integer.valueOf(indexSelected));
+                            selectedItems.remove(Integer.valueOf(indexSelected));
                         }
                     }
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        tags = "";
                         //  Your code when user clicked on OK
                         //  You can write the code  to save the selected item here
-                        for (int i = 0; i < seletedItems.size(); i++) {
-                            tags = tags + "," + seletedItems.get(i).toString();
+                        for (int i = 0; i < selectedItems.size(); i++) {
+                            tags = tags + "," + selectedItems.get(i).toString();
                         }
                         tags = tags.substring(1);
 
