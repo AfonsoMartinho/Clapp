@@ -93,8 +93,12 @@ public class Calendar extends Fragment {
                     String date = ds.child("date").getValue(String.class);
                     String time = ds.child("time").getValue(String.class);
                     com.project.clapp.models.Event event = new com.project.clapp.models.Event(id, name, date, time);
+
                     EVENTS.add(event);
 
+                }
+                for (int i = 0; i < EVENTS.size(); i++) {
+                    toMillis(EVENTS.get(i));
                 }
             }
 
@@ -105,23 +109,23 @@ public class Calendar extends Fragment {
             }
         });
 
-        for (int i = 0; i < EVENTS.size(); i++) {
-            toMillis(EVENTS.get(i));
-        }
+
     }
 
     public void toMillis(com.project.clapp.models.Event event) {
         String str = event.getDate() + " " + event.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("mmm dd YYYY HH:mm");
-        Date date = null;
+        Log.d("gato", str);
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz");
+        Date date;
         try {
             date = df.parse(str);
             long epoch = date.getTime();
+            Log.d("gato", "tou aqui");
             System.out.println(epoch);
             Event ev1 = new Event(Color.GREEN, epoch, event.getName());
             compactCalendarView.addEvent(ev1);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.d("gato", e.toString());
         }
 
     }
