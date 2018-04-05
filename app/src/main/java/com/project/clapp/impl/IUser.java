@@ -14,4 +14,8 @@ public interface IUser {
     void addUser(String userId, String mail);
 
     void removeUser(String name);
+
+    void getUsers(User user);
+
+    void clearUsers();
 }

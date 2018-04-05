@@ -8,20 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.project.clapp.impl.EventFirebaseManager;
 import com.project.clapp.models.Event;
-
 
 import java.util.ArrayList;
 
@@ -115,43 +109,12 @@ public class AllEvents extends Fragment {
     }
 
     public void fillEventList(View view, final String filter) {
-        DatabaseReference dataEvents;
-        dataEvents = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventListRef = dataEvents.child("events");
-        eventListRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                EVENTS.clear();
-                for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                    String id = ds.child("id").getValue(String.class);
-                    String nome = ds.child("name").getValue(String.class);
-                    String uID = ds.child("uID").getValue(String.class);
-                    String imgURL = ds.child("imgURL").getValue(String.class);
-                    String date = ds.child("date").getValue(String.class);
-                    String time = ds.child("time").getValue(String.class);
-                    String local = ds.child("local").getValue(String.class);
-                    int maxR = ds.child("maxRegisters").getValue(int.class);
-                    int numR = ds.child("numRegister").getValue(int.class);
-                    String duration = ds.child("duration").getValue(String.class);
-                    int price = ds.child("preco").getValue(int.class);
-                    String descr = ds.child("descr").getValue(String.class);
-                    String userList = ds.child("userList").getValue(String.class);
+        if (filter.equals("NONE")) {
+            EVENTS = EventFirebaseManager.getInstance().getEventList();
+        }
 
-                    if (filter.equals("NONE")) {
-                        Event event = new Event(id, nome, uID, imgURL, local, date, time, duration, descr, userList, numR, maxR, price);
-                        EVENTS.add(event);
-                    }
-                }
-                eventAdapter = new EventAdapter(EVENTS);
-                rv.setAdapter(eventAdapter);
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, databaseError.toString());
-            }
-        });
+        eventAdapter = new EventAdapter(EVENTS);
+        rv.setAdapter(eventAdapter);
     }
 
 }

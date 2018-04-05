@@ -6,246 +6,175 @@
     android:layout_height="match_parent"
     tools:context=".EventActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="160dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/txtRegistos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="180dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimaryDark"
+        android:text="Nº of Participants"
+        android:textAlignment="viewStart"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapEvent" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/eventNumInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:text="62"
+        android:textAlignment="viewEnd"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/eventLocationInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapEvent" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:orientation="vertical"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+    <TextView
+        android:id="@+id/eventNameInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="164dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="Event Name"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mapEvent"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtRegistos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventNameInput"
+        tools:context=".MapsActivity" />
 
-                    <TextView
-                        android:id="@+id/txtRegistos"
-                        android:layout_width="710dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="Nº of Participants"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/cardview_light_background"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="8dp" />
+    <TextView
+        android:id="@+id/eventDateInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:text="Date"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/eventTimeInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventLocationInput" />
 
-                    <TextView
-                        android:id="@+id/eventNumInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="62"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_orange_dark"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="8dp" />
+    <TextView
+        android:id="@+id/eventMaxInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="1"
+        android:text="MaxRegisters"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-                </LinearLayout>
+    <TextView
+        android:id="@+id/eventPriceInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="1"
+        android:text="Price"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/eventMaxInput"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-            </LinearLayout>
+    <TextView
+        android:id="@+id/eventTimeInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="79dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:text="Time"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventDateInput" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/eventCreatorInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="31dp"
+        android:layout_marginEnd="229dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="229dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="121dp"
+        android:layout_weight="1"
+        android:text="Creator"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/eventPriceInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventNumInput" />
 
-                <TextView
-                    android:id="@+id/eventNameInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:text="Event Name"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="8dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="0dp"
-                android:layout_height="211dp"
-                android:background="@color/cardview_dark_background"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout5"></LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="395dp"
-                android:layout_height="85dp"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        tools:layout_editor_absoluteY="292dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/eventPriceInput"
-                                android:layout_width="112dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Price"
-                                android:textAlignment="viewStart"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                tools:layout_editor_absoluteX="16dp"
-                                tools:layout_editor_absoluteY="373dp" />
-
-                            <TextView
-                                android:id="@+id/eventMaxInput"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="MaxRegisters"
-                                android:textAlignment="viewEnd"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                tools:layout_editor_absoluteX="208dp"
-                                tools:layout_editor_absoluteY="373dp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/eventDateInput"
-                            android:layout_width="wrap_content"
-                            android:layout_height="29dp"
-                            android:layout_weight="1"
-                            android:text="Date"
-                            android:textAlignment="viewStart"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintHorizontal_bias="0.044"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            tools:layout_editor_absoluteY="333dp" />
-
-                        <TextView
-                            android:id="@+id/eventTimeInput"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="Time"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintHorizontal_bias="0.955"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            tools:layout_editor_absoluteY="333dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/eventLocationInput"
-                            android:layout_width="59dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Location"
-                            android:textAlignment="viewStart"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            tools:layout_editor_absoluteY="0dp" />
-
-                        <TextView
-                            android:id="@+id/eventCreatorInput"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Creator"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:layout_editor_absoluteX="264dp"
-                            tools:layout_editor_absoluteY="343dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </android.support.constraint.ConstraintLayout>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/eventLocationInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:text="Location"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRegistos" />
 
     <Button
         android:id="@+id/button2"
@@ -264,14 +193,13 @@
         android:id="@+id/imageViewInput"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="2dp"
         android:background="@color/common_google_signin_btn_text_dark_focused"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/eventNameInput"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@mipmap/ic_launcher" />
 
 </android.support.constraint.ConstraintLayout>

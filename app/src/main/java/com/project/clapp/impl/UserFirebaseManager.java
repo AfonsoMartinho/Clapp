@@ -5,6 +5,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.project.clapp.models.User;
 
+import java.util.ArrayList;
+
 /**
  * Created by Afonso on 11/03/2018.
  */
@@ -12,6 +14,7 @@ import com.project.clapp.models.User;
 public class UserFirebaseManager implements IUser {
 
     static UserFirebaseManager ufm = null;
+    public ArrayList<User> userList = new ArrayList<>();
 
     public static UserFirebaseManager getInstance() {
         if(ufm == null) {
@@ -21,8 +24,18 @@ public class UserFirebaseManager implements IUser {
     }
 
     @Override
+    public void clearUsers() {
+        userList.clear();
+    }
+
+    @Override
     public User getUser(String name) {
         return null;
+    }
+
+    @Override
+    public void getUsers(User user) {
+        userList.add(user);
     }
 
     @Override

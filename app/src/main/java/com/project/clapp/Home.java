@@ -20,7 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.clapp.impl.EventFirebaseManager;
+import com.project.clapp.impl.UserFirebaseManager;
 import com.project.clapp.models.Event;
+import com.project.clapp.models.User;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +36,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         loadEvents();
+        loadUsers();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,9 +59,9 @@ public class Home extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         setTitle("Homepage");
-        Calendar calendar = new Calendar();
+        HomeFragment home = new HomeFragment();
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragment, calendar).commit();
+        fm.beginTransaction().replace(R.id.fragment, home).commit();
     }
 
     @Override
@@ -128,6 +131,7 @@ public class Home extends AppCompatActivity
     }
 
     public void loadEvents() {
+        EventFirebaseManager.getInstance().clearEvents();
         DatabaseReference dataEvents;
         dataEvents = FirebaseDatabase.getInstance().getReference();
         DatabaseReference eventListRef = dataEvents.child("events");
@@ -152,8 +156,8 @@ public class Home extends AppCompatActivity
                     double longitude = ds.child("longitude").getValue(double.class);
 
                     //info about the registration of the event
-                    int numR = ds.child("numR").getValue(int.class);
-                    int maxR = ds.child("maxR").getValue(int.class);
+                    int numR = ds.child("numRegister").getValue(int.class);
+                    int maxR = ds.child("maxRegisters").getValue(int.class);
                     String userList = ds.child("userList").getValue(String.class);
 
                     //additional info about the event
@@ -164,6 +168,38 @@ public class Home extends AppCompatActivity
                     Event EVENT = new Event(id, name, uID, imgURL, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
                     EventFirebaseManager.getInstance().setEvents(EVENT);
 
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("Error", databaseError.toString());
+            }
+
+
+        });
+    }
+
+    public void loadUsers() {
+        UserFirebaseManager.getInstance().clearUsers();
+        DatabaseReference dataEvents;
+        dataEvents = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userListRef = dataEvents.child("users");
+        userListRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    String id = ds.child("id").getValue(String.class);
+                    String name = ds.child("name").getValue(String.class);
+                    String mail = ds.child("mail").getValue(String.class);
+                    String imgURL = ds.child("imgURL").getValue(String.class);
+                    int tel = ds.child("tele").getValue(int.class);
+                    int rep = ds.child("rep").getValue(int.class);
+                    int numEvent = ds.child("numEvent").getValue(int.class);
+
+                    User user = new User(name, id, mail, tel, imgURL, numEvent, rep);
+                    UserFirebaseManager.getInstance().getUsers(user);
                 }
 
             }

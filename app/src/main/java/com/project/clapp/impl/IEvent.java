@@ -14,6 +14,8 @@ public interface IEvent {
 
     ArrayList<Event> getEventList();
 
+    void clearEvents();
+
     void setEvents(Event event);
 
     void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, double priceEvent, String descEvent, int capEvent, String userId, double latitude, double longitude, String imgURL, String tags);

@@ -32,8 +32,19 @@ public class EventFirebaseManager implements IEvent{
     }
 
     @Override
+    public void clearEvents() {
+        eventList.clear();
+    }
+
+    @Override
     public Event getEvent(String id) {
-        return null;
+        Event event = new Event();
+        for (int i = 0; i < eventList.size(); i++) {
+            if (id.equals(eventList.get(i).getId())) {
+                event = eventList.get(i);
+            }
+        }
+        return event;
     }
 
     @Override
