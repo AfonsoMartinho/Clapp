@@ -37,7 +37,7 @@ public class Authentication extends AppCompatActivity {
         imgView = findViewById(R.id.imgIcon);
         imgView.setImageResource(R.drawable.hashsip);
 
-        mAuth.signOut();
+        //mAuth.signOut();
     }
 
     public void login(View view) {
@@ -58,7 +58,7 @@ public class Authentication extends AppCompatActivity {
                             ufm.addUser(user.getUid(), user.getEmail());
 
                             //PASSAGEM PARA A HOME PAGE
-                            Intent intent = new Intent(Authentication.this, Home.class);
+                            Intent intent = new Intent(Authentication.this, LoadingActivity.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -70,7 +70,7 @@ public class Authentication extends AppCompatActivity {
     }
 
     public void entrar(View view) {
-        Intent intent = new Intent(Authentication.this, Home.class);
+        Intent intent = new Intent(Authentication.this, LoadingActivity.class);
         startActivity(intent);
     }
 }

@@ -4,6 +4,8 @@ package com.project.clapp;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +32,12 @@ public class Calendar extends Fragment {
 
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.getDefault());
     private SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
-    ArrayList<com.project.clapp.models.Event> EVENTS = new ArrayList<>();
+    ArrayList<com.project.clapp.models.Event> EVENTS = new ArrayList<>(), EVENTSFINAL = new ArrayList<>();
     CompactCalendarView compactCalendarView;
     private FirebaseAuth mAuth;
+    EventAdapter eventAdapter;
+    RecyclerView rv;
+
 
     public Calendar() {
         // Required empty public constructor
@@ -44,11 +49,14 @@ public class Calendar extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         mAuth = FirebaseAuth.getInstance();
         compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
+
+        rv = rootView.findViewById(R.id.eventListCalendar);
+        rv.setHasFixedSize(true);
 
 
 
@@ -64,8 +72,23 @@ public class Calendar extends Fragment {
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+                EVENTSFINAL.clear();
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
+
+                for (int i = 0; i < events.size(); i++) {
+
+                    String data = events.get(i).getData().toString();
+
+                    LinearLayoutManager llm = new LinearLayoutManager(rootView.getContext());
+                    rv.setLayoutManager(llm);
+
+                    com.project.clapp.models.Event event = EventFirebaseManager.getInstance().getEvent(data);
+                    EVENTSFINAL.add(event);
+                    fillEventList(rootView);
+                }
+                Log.d("gato", Integer.toString(EVENTSFINAL.size()));
                 Log.d("gato", "Day was clicked: " + dateClicked + " with events " + events);
+
             }
 
             @Override
@@ -76,6 +99,8 @@ public class Calendar extends Fragment {
             }
         });
 
+
+
         return rootView;
 
 
@@ -83,15 +108,21 @@ public class Calendar extends Fragment {
 
     public void getEvents() {
 
-        EVENTS = EventFirebaseManager.getInstance().getEventList();
+        ArrayList<com.project.clapp.models.Event> EventList = EventFirebaseManager.getInstance().getEventList();
+
         /*if (userList.contains(user.getUid())) {
             EVENTS.add(event);
 
         }*/
+        for (int i = 0; i < EventList.size(); i++) {
+            if (EventList.get(i).getUserList().contains(mAuth.getCurrentUser().getUid())) {
+                EVENTS.add(EventList.get(i));
+
+            }
+        }
         for (int i = 0; i < EVENTS.size(); i++) {
             toMillis(EVENTS.get(i));
         }
-
 
     }
 
@@ -103,11 +134,19 @@ public class Calendar extends Fragment {
             date = df.parse(str);
             long epoch = date.getTime();
             System.out.println(epoch);
-            Event ev1 = new Event(Color.YELLOW, epoch, event.getName());
+            Event ev1 = new Event(Color.YELLOW, epoch, event.getId());
             compactCalendarView.addEvent(ev1);
         } catch (ParseException e) {
             Log.d("gato", e.toString());
         }
+
+    }
+
+    public void fillEventList(View view) {
+
+        eventAdapter = new EventAdapter(EVENTSFINAL, 2);
+        rv.setAdapter(eventAdapter);
+
 
     }
 

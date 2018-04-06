@@ -12,6 +12,8 @@ public interface IEvent {
 
     Event getEvent(String id);
 
+    //Event getEventByUserID(String id);
+
     ArrayList<Event> getEventList();
 
     void clearEvents();

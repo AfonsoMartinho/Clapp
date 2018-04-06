@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 public class EventFirebaseManager implements IEvent{
     public ArrayList<Event> eventList = new ArrayList<>();
-    boolean datafetch = false;
-
 
     public ArrayList<Event> getEventList() {
         return eventList;

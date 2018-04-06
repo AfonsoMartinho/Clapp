@@ -16,11 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAaIvGAWElbKAc-whulIeGbuX0PKm_h9d8" />
@@ -40,7 +38,8 @@
             android:name=".EventActivity"
             android:hardwareAccelerated="true" />
         <activity android:name=".CreateEvent" />
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".MapActivity" />
+        <activity android:name=".LoadingActivity"></activity>
     </application>
 
 </manifest>

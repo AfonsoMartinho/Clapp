@@ -113,7 +113,7 @@ public class AllEvents extends Fragment {
             EVENTS = EventFirebaseManager.getInstance().getEventList();
         }
 
-        eventAdapter = new EventAdapter(EVENTS);
+        eventAdapter = new EventAdapter(EVENTS, 1);
         rv.setAdapter(eventAdapter);
     }
 
