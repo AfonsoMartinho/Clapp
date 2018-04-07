@@ -110,14 +110,9 @@ public class Calendar extends Fragment {
 
         ArrayList<com.project.clapp.models.Event> EventList = EventFirebaseManager.getInstance().getEventList();
 
-        /*if (userList.contains(user.getUid())) {
-            EVENTS.add(event);
-
-        }*/
         for (int i = 0; i < EventList.size(); i++) {
             if (EventList.get(i).getUserList().contains(mAuth.getCurrentUser().getUid())) {
                 EVENTS.add(EventList.get(i));
-
             }
         }
         for (int i = 0; i < EVENTS.size(); i++) {
@@ -130,15 +125,19 @@ public class Calendar extends Fragment {
         String str = event.getDate() + " " + event.getTime();
         SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz");
         Date date;
+
         try {
+            System.out.println("ola");
             date = df.parse(str);
             long epoch = date.getTime();
-            System.out.println(epoch);
             Event ev1 = new Event(Color.YELLOW, epoch, event.getId());
             compactCalendarView.addEvent(ev1);
         } catch (ParseException e) {
-            Log.d("gato", e.toString());
+            System.out.println(e);
+            e.printStackTrace();
         }
+
+
 
     }
 

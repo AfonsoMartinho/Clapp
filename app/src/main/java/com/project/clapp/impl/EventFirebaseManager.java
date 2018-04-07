@@ -1,7 +1,5 @@
 package com.project.clapp.impl;
 
-import android.util.Log;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.project.clapp.models.Event;
@@ -51,17 +49,21 @@ public class EventFirebaseManager implements IEvent{
     }
 
     @Override
-    public void addEvent(String nameEvent, String dateEvent, String timeEvent, String localEvent, String durationEvent, double priceEvent, String descEvent, int capEvent, String userId, double latitude, double longitude, String imgURL, String tags) {
+    public void addEvent(String nameEvent, String dateEvent, String timeEvent, String placeEvent, String localEvent, String durationEvent, double priceEvent, String descEvent, int capEvent, String userId, double latitude, double longitude, String imgURL, ArrayList<String> tags) {
         DatabaseReference databaseEvents;
         databaseEvents = FirebaseDatabase.getInstance().getReference();
         DatabaseReference pushedPostRef = databaseEvents.push();
         String postId = pushedPostRef.getKey();
         String userList = userId;
-        Log.d("addEvent","entrou");
+        ArrayList<String> users = new ArrayList<String>();
+        users.add(userList);
+        System.out.println(tags);
+        ArrayList<String> tagsEvent = tags;
         Event event = new Event(postId,
                 nameEvent,
                 userId,
                 imgURL,
+                placeEvent,
                 localEvent,
                 latitude,
                 longitude,
@@ -69,12 +71,11 @@ public class EventFirebaseManager implements IEvent{
                 timeEvent,
                 durationEvent,
                 descEvent,
-                userList,
+                users,
                 1,
                 capEvent,
                 priceEvent,
-                tags);
+                tagsEvent);
         databaseEvents.child("events").child(postId).setValue(event);
-
     }
 }

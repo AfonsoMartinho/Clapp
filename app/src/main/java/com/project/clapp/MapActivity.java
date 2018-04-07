@@ -86,9 +86,11 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.On
                 Intent returnIntent = new Intent();
                 double latitude = myPlace.getLatLng().latitude;
                 double longitude = myPlace.getLatLng().longitude;
+
                 returnIntent.putExtra("address", myPlace.getAddress());
                 returnIntent.putExtra("latitude", latitude);
                 returnIntent.putExtra("longitude", longitude);
+                returnIntent.putExtra("name", myPlace.getName());
                 setResult(CreateEvent.RESULT_OK,returnIntent);
                 finish();
             }

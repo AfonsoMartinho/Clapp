@@ -1,5 +1,6 @@
 package com.project.clapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -41,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import com.project.clapp.impl.EventFirebaseManager;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -56,19 +58,21 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     private int limit = 0;
     private String desc = "";
     private String name = "";
+    private String place = "";
     private String local = "";
     private String userId = "";
     private double preco = 0;
     private double latitude = 0;
     private double longitude = 0;
     private Bitmap bmp;
-    private String tags = "";
+    private ArrayList<String> tags = new ArrayList<>();
     private String imgURL = "";
     private StorageReference mStorageRef;
     private static final String TAG = "Check";
     private static final int ERROR_DIALOG_REQUEST = 9001;
     private static final int REQUEST_CAMERA = 1, SELECT_FILE = 2, REQUEST_LOCATION = 3;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 321;
     private FirebaseAuth mAuth;
 
 
@@ -93,7 +97,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 Log.d(TAG, "onTimeSet: time: " + i + ":" + i1);
-                time += i + ":" + i1 + "UTC";
+                time += i + ":" + i1 + " UTC";
             }
         };
     }
@@ -135,6 +139,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
             } else if (requestCode==REQUEST_LOCATION) {
                 Bundle bundle = data.getExtras();
                 local = bundle.get("address").toString();
+                place = bundle.get("name").toString();
                 longitude = Double.parseDouble(bundle.get("longitude").toString());
                 latitude = Double.parseDouble(bundle.get("latitude").toString());
 
@@ -265,22 +270,21 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                     public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
                         if (isChecked) {
                             // If the user checked the item, add it to the selected items
-                            selectedItems.add(indexSelected);
-                        } else if (selectedItems.contains(indexSelected)) {
+                            selectedItems.add(items[indexSelected]);
+                        } else if (selectedItems.contains(items[indexSelected])) {
                             // Else, if the item is already in the array, remove it
-                            selectedItems.remove(Integer.valueOf(indexSelected));
+                            selectedItems.remove(items[indexSelected]);
                         }
                     }
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        tags = "";
+                        tags.clear();
                         //  Your code when user clicked on OK
                         //  You can write the code  to save the selected item here
                         for (int i = 0; i < selectedItems.size(); i++) {
-                            tags = tags + "," + selectedItems.get(i).toString();
+                            tags.add(selectedItems.get(i).toString());
                         }
-                        tags = tags.substring(1);
 
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -313,29 +317,47 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     }
 
     public void addImage(View view) {
+        int writeCheck = ContextCompat.checkSelfPermission(CreateEvent.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readCheck = ContextCompat.checkSelfPermission(CreateEvent.this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
-            final CharSequence[] items = {"Take Photo", "Choose from Library",
-                    "Cancel"};
-            AlertDialog.Builder builder = new AlertDialog.Builder(CreateEvent.this);
-            builder.setTitle("Add Photo!");
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int item) {
-                    if (items[item].equals("Take Photo")) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, REQUEST_CAMERA);
-                    } else if (items[item].equals("Choose from Library")) {
-                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        intent.setType("images/*");
-                        startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_FILE);
-                    } else if (items[item].equals("Cancel")) {
-                        dialog.dismiss();
-                    }
-                }
-            });
-            builder.show();
+        if (writeCheck != PackageManager.PERMISSION_GRANTED || readCheck != PackageManager.PERMISSION_GRANTED) {
+            if (writeCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        CreateEvent.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
+            if (readCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        CreateEvent.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            }
 
+        } else {
+            checkImage();
+        }
     }
+
+    public void checkImage() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library",
+                "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateEvent.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take Photo")) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals("Choose from Library")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("images/*");
+                    startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_FILE);
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
 
 
 
@@ -343,24 +365,25 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
 
         name = nameTxt.getText().toString();
-        if (checkPermissionREAD_EXTERNAL_STORAGE(this)) {
-            saveImage(getImageUri(this, bmp));
-        }
-            EventFirebaseManager efm = EventFirebaseManager.getInstance();
-            efm.addEvent(
-                    name,
-                    date,
-                    time,
-                    local,
-                    duration,
-                    preco,
-                    desc,
-                    limit,
-                    userId,
-                    latitude,
-                    longitude,
-                    imgURL,
-                    tags);
+
+        saveImage(getImageUri(this, bmp));
+
+        EventFirebaseManager efm = EventFirebaseManager.getInstance();
+        efm.addEvent(
+                name,
+                date,
+                time,
+                place,
+                local,
+                duration,
+                preco,
+                desc,
+                limit,
+                userId,
+                latitude,
+                longitude,
+                imgURL,
+                tags);
 
     }
 
@@ -422,6 +445,8 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
             return true;
         }
     }
+
+
     public void showDialog(final String msg, final Context context,
                            final String permission) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
@@ -443,17 +468,18 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                }
+                break;
             case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // do your stuff
-                } else {
-                    Toast.makeText(CreateEvent.this, "GET_ACCOUNTS Denied",
-                            Toast.LENGTH_SHORT).show();
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    checkImage();
                 }
                 break;
             default:
-                super.onRequestPermissionsResult(requestCode, permissions,
-                        grantResults);
+                break;
         }
     }
 

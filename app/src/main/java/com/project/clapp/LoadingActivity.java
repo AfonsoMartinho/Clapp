@@ -16,6 +16,8 @@ import com.project.clapp.impl.UserFirebaseManager;
 import com.project.clapp.models.Event;
 import com.project.clapp.models.User;
 
+import java.util.ArrayList;
+
 public class LoadingActivity extends AppCompatActivity {
 
     @Override
@@ -72,6 +74,7 @@ public class LoadingActivity extends AppCompatActivity {
                     String duration = ds.child("duration").getValue(String.class);
 
                     //info about the place of the event
+                    String place = ds.child("place").getValue(String.class);
                     String local = ds.child("local").getValue(String.class);
                     double latitude = ds.child("latitude").getValue(double.class);
                     double longitude = ds.child("longitude").getValue(double.class);
@@ -79,14 +82,21 @@ public class LoadingActivity extends AppCompatActivity {
                     //info about the registration of the event
                     int numR = ds.child("numRegister").getValue(int.class);
                     int maxR = ds.child("maxRegisters").getValue(int.class);
-                    String userList = ds.child("userList").getValue(String.class);
+                    ArrayList<String> userList = new ArrayList<>();
+                    for (DataSnapshot userShot: ds.child("userList").getChildren()) {
+                        userList.add(userShot.getValue().toString());
+                    }
 
                     //additional info about the event
                     String descr = ds.child("descr").getValue(String.class);
-                    String tags = ds.child("tags").getValue(String.class);
                     double price = ds.child("priceEvent").getValue(double.class);
+                    ArrayList<String> tags = new ArrayList<>();
+                    for (DataSnapshot tagShot: ds.child("tags").getChildren()) {
+                        tags.add(tagShot.getValue().toString());
+                    }
 
-                    Event EVENT = new Event(id, name, uID, imgURL, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
+
+                    Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
                     EventFirebaseManager.getInstance().setEvents(EVENT);
 
                 }

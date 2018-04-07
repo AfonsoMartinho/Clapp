@@ -2,6 +2,8 @@ package com.project.clapp.models;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
+
 /**
  * Created by ruigo on 12/03/2018.
  */
@@ -13,6 +15,7 @@ public class Event {
     public String name;
     public String uID;
     public String imgURL;
+    public String place;
     public String local;
     public double latitude;
     public double longitude;
@@ -20,53 +23,20 @@ public class Event {
     public String time;
     public String duration;
     public String descr;
-    public String userList;
     public int numRegister;
     public int maxRegisters;
     public double priceEvent;
-    public String tags;
+    public ArrayList<String> tags;
+    public ArrayList<String> userList;
 
     public Event() {}
 
-    public Event(String name, String uID) {
-        this.name = name;
-        this.uID = uID;
-    }
-
-    public Event(String id, String name, String date, String time) {
-        this.id = id;
-        this.name = name;
-        this.date = date;
-        this.time = time;
-    }
-
-    public Event(String id, String name, String uID) {
-        this.id = id;
-        this.name = name;
-        this.uID = uID;
-    }
-
-    public Event(String id, String name, String uID, String imgURL, String local, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double priceEvent) {
+    public Event(String id, String name, String uID, String imgURL, String place, String local, double latitude, double longitude, String date, String time, String duration, String descr, ArrayList<String> userList, int numRegister, int maxRegisters, double priceEvent, ArrayList<String> tags) {
         this.id = id;
         this.name = name;
         this.uID = uID;
         this.imgURL = imgURL;
-        this.local = local;
-        this.date = date;
-        this.time = time;
-        this.duration = duration;
-        this.descr = descr;
-        this.userList = userList;
-        this.numRegister = numRegister;
-        this.maxRegisters = maxRegisters;
-        this.priceEvent = priceEvent;
-    }
-
-    public Event(String id, String name, String uID, String imgURL, String local, double latitude, double longitude, String date, String time, String duration, String descr, String userList, int numRegister, int maxRegisters, double priceEvent, String tags) {
-        this.id = id;
-        this.name = name;
-        this.uID = uID;
-        this.imgURL = imgURL;
+        this.place = place;
         this.local = local;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -137,13 +107,11 @@ public class Event {
         this.descr = descr;
     }
 
-    public String getUserList() {
+    public ArrayList<String> getUserList() {
         return userList;
     }
 
-    public void setUserList(String userList) {
-        this.userList = userList;
-    }
+    public void setUserList(ArrayList<String>userList) { this.userList = userList; }
 
     public int getNumRegister() {
         return numRegister;
@@ -201,11 +169,19 @@ public class Event {
         this.longitude = longitude;
     }
 
-    public String getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 }
