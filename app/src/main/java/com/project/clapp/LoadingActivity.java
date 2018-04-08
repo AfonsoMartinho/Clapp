@@ -19,6 +19,8 @@ import com.project.clapp.models.User;
 import java.util.ArrayList;
 
 public class LoadingActivity extends AppCompatActivity {
+    ArrayList<Event> EVENTS;
+    boolean init = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class LoadingActivity extends AppCompatActivity {
         welcomeThread.start();
     }
     public void loadEvents() {
+        EVENTS = EventFirebaseManager.getInstance().getEventList();
         EventFirebaseManager.getInstance().clearEvents();
         DatabaseReference dataEvents;
         dataEvents = FirebaseDatabase.getInstance().getReference();
@@ -94,10 +97,41 @@ public class LoadingActivity extends AppCompatActivity {
                     for (DataSnapshot tagShot: ds.child("tags").getChildren()) {
                         tags.add(tagShot.getValue().toString());
                     }
-
-
                     Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
                     EventFirebaseManager.getInstance().setEvents(EVENT);
+
+
+                    /*boolean exists = false;
+                    int i2 = 0;
+                    for (int i = 0; i < EVENTS.size(); i++) {
+                        if (!EVENTS.get(i).getId().equals(id)) {
+                            exists = true;
+                            i2 = i;
+                        }
+
+                    }
+                    if (exists) {
+                        EVENTS.get(i2).setDate(date);
+                        EVENTS.get(i2).setDescr(descr);
+                        EVENTS.get(i2).setDuration(duration);
+                        EVENTS.get(i2).setImgURL(imgURL);
+                        EVENTS.get(i2).setLatitude(latitude);
+                        EVENTS.get(i2).setLongitude(longitude);
+                        EVENTS.get(i2).setLocal(local);
+                        EVENTS.get(i2).setMaxRegisters(maxR);
+                        EVENTS.get(i2).setName(name);
+                        EVENTS.get(i2).setPlace(place);
+                        EVENTS.get(i2).setUserList(userList);
+                        EVENTS.get(i2).setTags(tags);
+                        EVENTS.get(i2).setTime(time);
+                        EVENTS.get(i2).setNumRegister(numR);
+                        EVENTS.get(i2).setPriceEvent(price);
+                    } else {
+                        Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
+                        EventFirebaseManager.getInstance().setEvents(EVENT);
+                    }*/
+
+
 
                 }
 
@@ -128,6 +162,7 @@ public class LoadingActivity extends AppCompatActivity {
                     int tel = ds.child("tele").getValue(int.class);
                     int rep = ds.child("rep").getValue(int.class);
                     int numEvent = ds.child("numEvent").getValue(int.class);
+
 
                     User user = new User(name, id, mail, tel, imgURL, numEvent, rep);
                     UserFirebaseManager.getInstance().getUsers(user);

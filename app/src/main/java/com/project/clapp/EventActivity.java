@@ -1,11 +1,16 @@
 package com.project.clapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +22,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -25,6 +34,7 @@ import com.project.clapp.models.Event;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class EventActivity extends AppCompatActivity {
     TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, maxRegister, priceInput;
@@ -33,6 +43,12 @@ public class EventActivity extends AppCompatActivity {
     private GoogleMap mMap;
     LatLng latlng;
     String address;
+    Event EVENT = new Event();
+    Boolean join = false;
+    private FirebaseAuth mAuth;
+    Button button;
+
+
     private static final float DEFAULT_ZOOM = 15f;
 
 
@@ -40,37 +56,41 @@ public class EventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-
+        mAuth = FirebaseAuth.getInstance();
+        button = findViewById(R.id.btnJoin);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
             String eventId = extras.getString("id");
             Event event = EventFirebaseManager.getInstance().getEvent(eventId);
-            fillDataEvent(event);
+            EVENT = event;
+            fillDataEvent();
         }
 
     }
 
-    public void fillDataEvent(Event event) {
+
+
+    public void fillDataEvent() {
         nameInput = findViewById(R.id.eventNameInput);
         imgView = findViewById(R.id.imageViewInput);
-        nameInput.setText(event.getName());
-        address = event.getLocal();
-        double longitude = event.getLongitude();
-        double latitude = event.getLatitude();
+        nameInput.setText(EVENT.getName());
+        address = EVENT.getLocal();
+        double longitude = EVENT.getLongitude();
+        double latitude = EVENT.getLatitude();
         latlng = new LatLng(latitude, longitude);
 
         dateInput = findViewById(R.id.eventDateInput);
-        dateInput.setText(event.getDate());
+        dateInput.setText(EVENT.getDate());
 
         timeInput = findViewById(R.id.eventTimeInput);
-        timeInput.setText(event.getTime());
+        timeInput.setText(EVENT.getTime());
 
         localInput = findViewById(R.id.eventLocationInput);
         localInput.setText(address);
 
-        String numR = Integer.toString(event.getNumRegister());
-        String maxR = Integer.toString(event.getMaxRegisters());
+        String numR = Integer.toString(EVENT.getNumRegister());
+        String maxR = Integer.toString(EVENT.getMaxRegisters());
 
         numRegister = findViewById(R.id.eventNumInput);
         numRegister.setText(numR);
@@ -78,16 +98,22 @@ public class EventActivity extends AppCompatActivity {
         maxRegister = findViewById(R.id.eventMaxInput);
         maxRegister.setText(maxR);
 
+        if (EVENT.getUserList().contains(mAuth.getCurrentUser().getUid())) {
+            join = true;
+            button.setBackgroundColor(Color.parseColor("#ffbb00"));
+            button.setText("Cancel Registration");
+        }
+
         priceInput = findViewById(R.id.eventPriceInput);
-        if (event.getPriceEvent() == 0) {
+        if (EVENT.getPriceEvent() == 0) {
             priceInput.setText("FREE!");
         } else {
-            priceInput.setText(Double.toString(event.getPriceEvent()));
+            priceInput.setText(Double.toString(EVENT.getPriceEvent()));
         }
 
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference eventImg = mStorageRef.child("events").child(event.getImgURL());
+        StorageReference eventImg = mStorageRef.child("events").child(EVENT.getImgURL());
 
         File localFile = null;
         try {
@@ -118,6 +144,74 @@ public class EventActivity extends AppCompatActivity {
         initMap();
 
     }
+
+    public void joinEvent(final View view) {
+        if (!join) {
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("Do you wish to register in the Event?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            registerEvent();
+                            button.setBackgroundColor(Color.parseColor("#ffbb00"));
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Your code when user clicked on Cancel
+                        }
+                    }).create();
+            dialog.show();
+        } else if (join) {
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("Do you wish to cancel the registration")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            cancelRegist();
+                            button.setBackgroundColor(Color.parseColor("#ffbb00"));
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Your code when user clicked on Cancel
+                        }
+                    }).create();
+            dialog.show();
+        }
+
+    }
+
+    public boolean registerEvent () {
+        DatabaseReference databaseEvents;
+        databaseEvents = FirebaseDatabase.getInstance().getReference();
+
+        try {
+            DatabaseReference userListRef = databaseEvents.child("events").child(EVENT.getId()).child("userList").push();
+            userListRef.setValue(mAuth.getCurrentUser().getUid());
+            databaseEvents.child("events").child(EVENT.getId()).child("numRegister").setValue(EVENT.getNumRegister() + 1);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+
+    public boolean cancelRegist () {
+        DatabaseReference databaseEvents;
+        databaseEvents = FirebaseDatabase.getInstance().getReference();
+
+        try {
+            DatabaseReference userListRef = databaseEvents.child("events").child(EVENT.getId()).child("userList").child(mAuth.getCurrentUser().getUid());
+            userListRef.setValue(null);
+            databaseEvents.child("events").child(EVENT.getId()).child("numRegister").setValue(EVENT.getNumRegister() - 1);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+
     private void moveCamera(LatLng latlng, float zoom, String address) {
         Log.d("MAP", "moveCamera: moving the camera to: lat: " + latlng);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));

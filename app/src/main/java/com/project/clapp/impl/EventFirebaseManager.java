@@ -71,11 +71,19 @@ public class EventFirebaseManager implements IEvent{
                 timeEvent,
                 durationEvent,
                 descEvent,
-                users,
                 1,
                 capEvent,
-                priceEvent,
-                tagsEvent);
+                priceEvent);
         databaseEvents.child("events").child(postId).setValue(event);
+
+        for (int i = 0; i < tags.size(); i++) {
+            DatabaseReference tagListRef = databaseEvents.child("events").child(postId).child("tags").child(tags.get(i).toString());
+            tagListRef.setValue(tags.get(i).toString());
+        }
+
+        for (int i = 0; i < users.size(); i++) {
+            DatabaseReference tagListRef = databaseEvents.child("events").child(postId).child("userList").child(users.get(i).toString());
+            tagListRef.setValue(users.get(i).toString());
+        }
     }
 }

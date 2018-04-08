@@ -14,11 +14,10 @@
         android:layout_weight="1"
         android:background="@color/colorPrimaryDark"
         android:text="Nº of Participants"
-        android:textAlignment="viewStart"
         android:textColor="@color/cardview_light_background"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +34,6 @@
         android:layout_marginStart="16dp"
         android:layout_weight="1"
         android:text="62"
-        android:textAlignment="viewEnd"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -101,7 +99,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -132,7 +130,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -155,7 +153,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
         app:layout_constraintEnd_toStartOf="@+id/eventPriceInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eventNumInput" />
@@ -177,11 +175,12 @@
         app:layout_constraintTop_toBottomOf="@+id/txtRegistos" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnJoin"
         android:layout_width="332dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:background="@color/colorPrimaryDark"
+        android:onClick="joinEvent"
         android:text="Join"
         android:textColor="@color/cardview_light_background"
         app:layout_constraintBottom_toBottomOf="parent"

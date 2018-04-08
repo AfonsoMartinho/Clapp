@@ -31,6 +31,24 @@ public class Event {
 
     public Event() {}
 
+    public Event(String id, String name, String uID, String imgURL, String place, String local, double latitude, double longitude, String date, String time, String duration, String descr, int numRegister, int maxRegisters, double priceEvent) {
+        this.id = id;
+        this.name = name;
+        this.uID = uID;
+        this.imgURL = imgURL;
+        this.place = place;
+        this.local = local;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.date = date;
+        this.time = time;
+        this.duration = duration;
+        this.descr = descr;
+        this.numRegister = numRegister;
+        this.maxRegisters = maxRegisters;
+        this.priceEvent = priceEvent;
+    }
+
     public Event(String id, String name, String uID, String imgURL, String place, String local, double latitude, double longitude, String date, String time, String duration, String descr, ArrayList<String> userList, int numRegister, int maxRegisters, double priceEvent, ArrayList<String> tags) {
         this.id = id;
         this.name = name;
