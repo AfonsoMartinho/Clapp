@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
@@ -34,7 +33,6 @@ import com.project.clapp.models.Event;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class EventActivity extends AppCompatActivity {
     TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, maxRegister, priceInput;
@@ -153,7 +151,9 @@ public class EventActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             registerEvent();
+                            join = true;
                             button.setBackgroundColor(Color.parseColor("#ffbb00"));
+                            button.setText("Cancel Registration");
                         }
                     }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
@@ -169,7 +169,9 @@ public class EventActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             cancelRegist();
+                            join = false;
                             button.setBackgroundColor(Color.parseColor("#ffbb00"));
+                            button.setText("Join");
                         }
                     }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
@@ -187,7 +189,7 @@ public class EventActivity extends AppCompatActivity {
         databaseEvents = FirebaseDatabase.getInstance().getReference();
 
         try {
-            DatabaseReference userListRef = databaseEvents.child("events").child(EVENT.getId()).child("userList").push();
+            DatabaseReference userListRef = databaseEvents.child("events").child(EVENT.getId()).child("userList").child(mAuth.getCurrentUser().getUid());
             userListRef.setValue(mAuth.getCurrentUser().getUid());
             databaseEvents.child("events").child(EVENT.getId()).child("numRegister").setValue(EVENT.getNumRegister() + 1);
             return true;

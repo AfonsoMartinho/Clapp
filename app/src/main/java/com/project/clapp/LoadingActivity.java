@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class LoadingActivity extends AppCompatActivity {
     ArrayList<Event> EVENTS;
     boolean init = true;
+    int z = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,40 +98,28 @@ public class LoadingActivity extends AppCompatActivity {
                     for (DataSnapshot tagShot: ds.child("tags").getChildren()) {
                         tags.add(tagShot.getValue().toString());
                     }
-                    Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
-                    EventFirebaseManager.getInstance().setEvents(EVENT);
 
-
-                    /*boolean exists = false;
-                    int i2 = 0;
-                    for (int i = 0; i < EVENTS.size(); i++) {
-                        if (!EVENTS.get(i).getId().equals(id)) {
-                            exists = true;
-                            i2 = i;
-                        }
-
-                    }
-                    if (exists) {
-                        EVENTS.get(i2).setDate(date);
-                        EVENTS.get(i2).setDescr(descr);
-                        EVENTS.get(i2).setDuration(duration);
-                        EVENTS.get(i2).setImgURL(imgURL);
-                        EVENTS.get(i2).setLatitude(latitude);
-                        EVENTS.get(i2).setLongitude(longitude);
-                        EVENTS.get(i2).setLocal(local);
-                        EVENTS.get(i2).setMaxRegisters(maxR);
-                        EVENTS.get(i2).setName(name);
-                        EVENTS.get(i2).setPlace(place);
-                        EVENTS.get(i2).setUserList(userList);
-                        EVENTS.get(i2).setTags(tags);
-                        EVENTS.get(i2).setTime(time);
-                        EVENTS.get(i2).setNumRegister(numR);
-                        EVENTS.get(i2).setPriceEvent(price);
-                    } else {
+                    if (init) {
                         Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
                         EventFirebaseManager.getInstance().setEvents(EVENT);
-                    }*/
-
+                        init = false;
+                    } else {
+                        boolean exists = false;
+                        ArrayList<Event> EVENTSF = EventFirebaseManager.getInstance().getEventList();
+                        for (int i = 0; i < EVENTSF.size(); i++) {
+                            if (EVENTSF.get(i).getId().equals(id)) {
+                                exists = true;
+                                z = i;
+                            }
+                        }
+                        if (!exists) {
+                            Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
+                            EventFirebaseManager.getInstance().setEvents(EVENT);
+                        } else {
+                            Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
+                            EventFirebaseManager.getInstance().registUser(EVENT, z);
+                        }
+                    }
 
 
                 }

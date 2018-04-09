@@ -67,7 +67,7 @@ public class Calendar extends Fragment {
         month.setText(monthFormat.format(System.currentTimeMillis()));
         year.setText(yearFormat.format(System.currentTimeMillis()));
 
-        getEvents();
+
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -100,11 +100,12 @@ public class Calendar extends Fragment {
         });
 
 
-
+        getEvents();
         return rootView;
 
 
     }
+
 
     public void getEvents() {
 

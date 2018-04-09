@@ -49,6 +49,11 @@ public class EventFirebaseManager implements IEvent{
     }
 
     @Override
+    public void registUser(Event event, int i) {
+        eventList.set(i, event);
+    }
+
+    @Override
     public void addEvent(String nameEvent, String dateEvent, String timeEvent, String placeEvent, String localEvent, String durationEvent, double priceEvent, String descEvent, int capEvent, String userId, double latitude, double longitude, String imgURL, ArrayList<String> tags) {
         DatabaseReference databaseEvents;
         databaseEvents = FirebaseDatabase.getInstance().getReference();

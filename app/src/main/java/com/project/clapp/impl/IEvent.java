@@ -16,6 +16,8 @@ public interface IEvent {
 
     ArrayList<Event> getEventList();
 
+    public void registUser(Event event, int i);
+
     void clearEvents();
 
     void setEvents(Event event);
