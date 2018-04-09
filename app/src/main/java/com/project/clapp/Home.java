@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.project.clapp.clapp.MyEvents;
+
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -97,15 +99,20 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.myEvents) {
             setTitle("My Events");
-            AllEvents wow = new AllEvents();
+            MyEvents myEvents = new MyEvents();
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.fragment, wow).commit();
+            fm.beginTransaction().replace(R.id.fragment, myEvents).commit();
 
         } else if (id == R.id.allEvents) {
             setTitle("All Events");
             AllEvents allEvents = new AllEvents();
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().replace(R.id.fragment, allEvents).commit();
+        }else if (id == R.id.going) {
+            setTitle("Going");
+            Going goingEvents = new Going();
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.fragment, goingEvents).commit();
         } else if (id == R.id.qrCode) {
 
         } else if (id == R.id.geolocation) {

@@ -17,6 +17,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="All Events" />
         <item
+            android:id="@+id/going"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Going" />
+        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />

@@ -124,6 +124,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             if (listType == 1) {
+                //Fetchs the event.xml file for the componentes by id
                 nameEvent = itemView.findViewById(R.id.nameEvent);
                 typeEvent = itemView.findViewById(R.id.typeEvent);
                 creatorEvent = itemView.findViewById(R.id.creatorEvent);
