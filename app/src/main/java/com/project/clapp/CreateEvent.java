@@ -333,6 +333,44 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         }
     }
 
+    public void addPrice(View view) {
+        final Dialog mPriceDialog = new Dialog(this);
+        mPriceDialog.setTitle("Price");
+        mPriceDialog.setContentView(R.layout.dialog_price);
+        Button b1 = mPriceDialog.findViewById(R.id.btnAddPrice);
+        Button b2 = mPriceDialog.findViewById(R.id.btnCancelPrice);
+        final NumberPicker np1 = mPriceDialog.findViewById(R.id.euroPicker);
+        final NumberPicker np2 = mPriceDialog.findViewById(R.id.centPicker);
+
+        np1.setMaxValue(600);
+        np1.setMinValue(0);
+        np1.setWrapSelectorWheel(false);
+        np1.setOnValueChangedListener(this);
+
+        np1.setMaxValue(99);
+        np1.setMinValue(0);
+        np1.setWrapSelectorWheel(false);
+        np1.setOnValueChangedListener(this);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "" + np1.getValue());
+                Log.d(TAG, "" + np2.getValue());
+                String price = np1.getValue() + "." + np2.getValue();
+                preco = Double.parseDouble(price);
+                mPriceDialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPriceDialog.dismiss();
+            }
+        });
+        mPriceDialog.show();
+    }
+
     public void checkImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library",
                 "Cancel"};
@@ -366,22 +404,41 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
         saveImage(getImageUri(this, bmp));
 
-        EventFirebaseManager efm = EventFirebaseManager.getInstance();
-        efm.addEvent(
-                name,
-                date,
-                time,
-                place,
-                local,
-                duration,
-                preco,
-                desc,
-                limit,
-                userId,
-                latitude,
-                longitude,
-                imgURL,
-                tags);
+        try {
+            EventFirebaseManager efm = EventFirebaseManager.getInstance();
+            efm.addEvent(
+                    name,
+                    date,
+                    time,
+                    place,
+                    local,
+                    duration,
+                    preco,
+                    desc,
+                    limit,
+                    userId,
+                    latitude,
+                    longitude,
+                    imgURL,
+                    tags);
+
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("Event created with success")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(CreateEvent.this, LoadingActivity.class);
+                                    startActivity(intent);
+                                }})
+                    .create();
+            Intent intent = new Intent(CreateEvent.this, LoadingActivity.class);
+            startActivity(intent);
+            dialog.show();
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
 
     }
 
