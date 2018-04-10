@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
 
 
+
     public EventAdapter(ArrayList<Event> eventList, int i) {
         listType = i;
         this.eventList = eventList;
@@ -64,8 +66,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.hourEvent.setText(event.getTime());
 
         if (listType == 1) {
-            holder.typeEvent.setText(event.getDescr());
-            holder.creatorEvent.setText(event.getuID());
+            holder.dateEvent.setText(event.getDate());
             mStorageRef = FirebaseStorage.getInstance().getReference();
             StorageReference eventImg = mStorageRef.child("events").child(event.getImgURL());
 
@@ -96,15 +97,18 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             });
         }
 
-
-
-        holder.btnView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent(context, EventActivity.class);
                 intent.putExtra("id", event.getId());
                 context.startActivity(intent);
             }
         });
+
+
+
+
 
 
 
@@ -117,26 +121,27 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView nameEvent, typeEvent, creatorEvent, localEvent, hourEvent;
+        protected TextView nameEvent, typeEvent, creatorEvent, localEvent, hourEvent, placeEvent, dateEvent;
         protected ImageView imageEvent;
+        private CardView cv;
         private Button btnView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             if (listType == 1) {
-                //Fetchs the event.xml file for the componentes by id
                 nameEvent = itemView.findViewById(R.id.nameEvent);
-                typeEvent = itemView.findViewById(R.id.typeEvent);
-                creatorEvent = itemView.findViewById(R.id.creatorEvent);
                 localEvent = itemView.findViewById(R.id.localEvent);
-                hourEvent = itemView.findViewById(R.id.hourEvent);
+                hourEvent = itemView.findViewById(R.id.timeEvent);
+                dateEvent = itemView.findViewById(R.id.dateEvent);
                 imageEvent = itemView.findViewById(R.id.imgEvent);
-                btnView = itemView.findViewById(R.id.btnView);
+                cv = itemView.findViewById(R.id.cardEvent);
+
             } else {
                 nameEvent = itemView.findViewById(R.id.nameEventCal);
                 localEvent = itemView.findViewById(R.id.localEventCal);
                 hourEvent = itemView.findViewById(R.id.timeEventCal);
                 btnView = itemView.findViewById(R.id.viewEventCal);
+                cv = itemView.findViewById(R.id.cardCalEvent);
             }
 
 

@@ -99,6 +99,7 @@ public class LoadingActivity extends AppCompatActivity {
                         tags.add(tagShot.getValue().toString());
                     }
 
+
                     if (init) {
                         Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
                         EventFirebaseManager.getInstance().setEvents(EVENT);

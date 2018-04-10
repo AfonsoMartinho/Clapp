@@ -133,6 +133,8 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                 bmp = (Bitmap) bundle.get("data");
 
             } else if (requestCode==SELECT_FILE) {
+                Bundle bundle = data.getExtras();
+                bmp = (Bitmap) bundle.get("data");
 
             } else if (requestCode==REQUEST_LOCATION) {
                 Bundle bundle = data.getExtras();

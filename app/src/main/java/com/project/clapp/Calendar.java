@@ -111,6 +111,8 @@ public class Calendar extends Fragment {
 
         ArrayList<com.project.clapp.models.Event> EventList = EventFirebaseManager.getInstance().getEventList();
 
+        System.out.println(EventList.size());
+
         for (int i = 0; i < EventList.size(); i++) {
             if (EventList.get(i).getUserList().contains(mAuth.getCurrentUser().getUid())) {
                 EVENTS.add(EventList.get(i));
@@ -124,18 +126,16 @@ public class Calendar extends Fragment {
 
     public void toMillis(com.project.clapp.models.Event event) {
         String str = event.getDate() + " " + event.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz");
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz", Locale.ENGLISH);
         Date date;
 
         try {
-            System.out.println("ola");
             date = df.parse(str);
             long epoch = date.getTime();
             Event ev1 = new Event(Color.YELLOW, epoch, event.getId());
             compactCalendarView.addEvent(ev1);
         } catch (ParseException e) {
             System.out.println(e);
-            e.printStackTrace();
         }
 
 
