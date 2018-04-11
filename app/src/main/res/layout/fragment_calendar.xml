@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.project.clapp.clapp.Calendar">
+    tools:context="com.project.clapp.Calendar">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -24,13 +24,13 @@
             app:compactCalendarTargetHeight="250dp"
             app:compactCalendarTextColor="#000"
             app:compactCalendarTextSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView19"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/yearName" />
+            app:layout_constraintTop_toBottomOf="@+id/yearName"
+            app:layout_constraintBottom_toTopOf="@+id/eventListCal" />
 
         <TextView
             android:id="@+id/monthName"
@@ -64,14 +64,14 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/eventListCalendar"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+            app:layout_constraintTop_toBottomOf="@+id/eventListCal" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/eventListCal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"

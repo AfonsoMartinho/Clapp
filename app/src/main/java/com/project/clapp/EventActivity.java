@@ -33,6 +33,10 @@ import com.project.clapp.models.Event;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class EventActivity extends AppCompatActivity {
     TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, maxRegister, priceInput;
@@ -112,7 +116,7 @@ public class EventActivity extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference eventImg = mStorageRef.child("events").child(EVENT.getImgURL());
-
+        System.out.println(EVENT.getImgURL());
         File localFile = null;
         try {
             localFile = File.createTempFile("images", "jpg");
@@ -140,6 +144,22 @@ public class EventActivity extends AppCompatActivity {
         });
 
         initMap();
+
+        String str = EVENT.getDate() + " " + EVENT.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz", Locale.ENGLISH);
+        Date currentDate = new Date();
+        df.format(currentDate);
+        Date date;
+
+        try {
+            date = df.parse(str);
+            if (currentDate.after(date)) {
+                button.setEnabled(false);
+                button.setVisibility(View.GONE);
+            }
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
 
     }
 
@@ -185,6 +205,8 @@ public class EventActivity extends AppCompatActivity {
     }
 
     public boolean registerEvent () {
+
+
         DatabaseReference databaseEvents;
         databaseEvents = FirebaseDatabase.getInstance().getReference();
 

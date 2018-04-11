@@ -30,7 +30,7 @@ public class Going extends Fragment {
     private static final String TAG = "FirebaseTest";
     EventAdapter eventAdapter;
     RecyclerView rv;
-    String tags;
+    ArrayList<String> tags = new ArrayList<>();
     Button filterBtn;
     ArrayList<Event> EVENTS = new ArrayList<>();
     ArrayList<Event> EVENTSGoing = new ArrayList<>();
@@ -52,7 +52,7 @@ public class Going extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(rootView.getContext());
         rv.setLayoutManager(llm);
 
-        fillEventList(rootView, "NONE");
+        fillEventList(rootView);
 
 
         filterBtn = rootView.findViewById(R.id.filtBtn);
@@ -68,7 +68,7 @@ public class Going extends Fragment {
         return rootView;
     }
 
-    public void filterEvents(View view) {
+    public void filterEvents(final View view) {
         final CharSequence[] items = {"Workshop","Lecture","Documentary","Tutorial","Dinner","Fun Activity"};
 
         final ArrayList selectedItems=new ArrayList();
@@ -80,22 +80,23 @@ public class Going extends Fragment {
                     public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
                         if (isChecked) {
                             // If the user checked the item, add it to the selected items
-                            selectedItems.add(indexSelected);
+                            selectedItems.add(items[indexSelected]);
                         } else if (selectedItems.contains(indexSelected)) {
                             // Else, if the item is already in the array, remove it
-                            selectedItems.remove(Integer.valueOf(indexSelected));
+                            selectedItems.remove(items[indexSelected]);
                         }
                     }
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        tags = "";
+                        tags.clear();
                         //  Your code when user clicked on OK
                         //  You can write the code  to save the selected item here
                         for (int i = 0; i < selectedItems.size(); i++) {
-                            tags = tags + "," + selectedItems.get(i).toString();
+                            tags.add(selectedItems.get(i).toString());
                         }
-                        tags = tags.substring(1);
+
+                        fillEventList(view);
 
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -107,16 +108,13 @@ public class Going extends Fragment {
         dialog.show();
     }
 
-    public void fillEventList(View view, final String filter) {
-        if (filter.equals("NONE")) {
-            EVENTS = EventFirebaseManager.getInstance().getEventList();
-            for (int i=0;i<EVENTS.size();i++){
-                if (EVENTS.get(i).getUserList().contains(mAuth.getCurrentUser().getUid())){
-                    EVENTSGoing.add(EVENTS.get(i));
-                }
+    public void fillEventList(View view) {
+        EVENTS = EventFirebaseManager.getInstance().getEventListTagFilter(tags);
+
+        for (int i = 0; i < EVENTS.size(); i++) {
+            if (EVENTS.get(i).getUserList().contains(mAuth.getCurrentUser().getUid())){
+                EVENTSGoing.add(EVENTS.get(i));
             }
-
-
         }
 
         eventAdapter = new EventAdapter(EVENTSGoing, 1);

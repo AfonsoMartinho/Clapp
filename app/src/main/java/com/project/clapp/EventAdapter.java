@@ -140,7 +140,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 nameEvent = itemView.findViewById(R.id.nameEventCal);
                 localEvent = itemView.findViewById(R.id.localEventCal);
                 hourEvent = itemView.findViewById(R.id.timeEventCal);
-                btnView = itemView.findViewById(R.id.viewEventCal);
                 cv = itemView.findViewById(R.id.cardCalEvent);
             }
 

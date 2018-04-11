@@ -12,10 +12,13 @@ import java.util.ArrayList;
 
 public class EventFirebaseManager implements IEvent{
     public ArrayList<Event> eventList = new ArrayList<>();
+    public ArrayList<Event> oldEvents = new ArrayList<>();
 
     public ArrayList<Event> getEventList() {
         return eventList;
     }
+
+    public ArrayList<Event> getOldEvents() { return oldEvents; }
 
     static EventFirebaseManager efm = null;
     private static final String TAG = "FirebaseTest";
@@ -25,6 +28,25 @@ public class EventFirebaseManager implements IEvent{
             efm = new EventFirebaseManager();
         }
         return efm;
+    }
+
+    @Override
+    public ArrayList<Event> getEventListTagFilter(ArrayList<String> tags) {
+        ArrayList<Event> EventsFilt = new ArrayList<>();
+        int numFilt = tags.size();
+        for (int i = 0; i < eventList.size(); i++) {
+            int checker = 0;
+            for (int x = 0; x < tags.size(); x++) {
+                if (eventList.get(i).getTags().contains(tags.get(x))) {
+                    checker++;
+                }
+            }
+            if (checker == numFilt) {
+                EventsFilt.add(eventList.get(i));
+            }
+        }
+
+        return EventsFilt;
     }
 
     @Override
@@ -44,8 +66,13 @@ public class EventFirebaseManager implements IEvent{
     }
 
     @Override
-    public void setEvents(Event event) {
-        eventList.add(event);
+    public void setEvents(Event event, int i) {
+        if (i == 1) {
+            eventList.add(event);
+        } else if (i == 2){
+            oldEvents.add(event);
+        }
+
     }
 
     @Override

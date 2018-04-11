@@ -33,6 +33,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_weight="1"
+        android:gravity="right"
         android:text="62"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="24sp"

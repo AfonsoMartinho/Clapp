@@ -17,7 +17,7 @@ public class User {
 
 
 
-    private User(){}
+    public User(){}
 
     public String getImgURL() {
         return imgURL;

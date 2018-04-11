@@ -16,7 +16,11 @@ import com.project.clapp.impl.UserFirebaseManager;
 import com.project.clapp.models.Event;
 import com.project.clapp.models.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class LoadingActivity extends AppCompatActivity {
     ArrayList<Event> EVENTS;
@@ -42,7 +46,7 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
                 try {
                     super.run();
-                    sleep(2000);  //Delay of 10 seconds
+                    sleep(2000);
                 } catch (Exception e) {
 
                 } finally {
@@ -102,8 +106,11 @@ public class LoadingActivity extends AppCompatActivity {
 
                     if (init) {
                         Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
-                        EventFirebaseManager.getInstance().setEvents(EVENT);
+                        loadToLists(EVENT);
                         init = false;
+
+
+
                     } else {
                         boolean exists = false;
                         ArrayList<Event> EVENTSF = EventFirebaseManager.getInstance().getEventList();
@@ -115,7 +122,7 @@ public class LoadingActivity extends AppCompatActivity {
                         }
                         if (!exists) {
                             Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
-                            EventFirebaseManager.getInstance().setEvents(EVENT);
+                            loadToLists(EVENT);
                         } else {
                             Event EVENT = new Event(id, name, uID, imgURL, place, local, latitude, longitude, date, time, duration, descr, userList, numR, maxR, price, tags);
                             EventFirebaseManager.getInstance().registUser(EVENT, z);
@@ -145,7 +152,7 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                    String id = ds.child("id").getValue(String.class);
+                    String id = ds.child("userId").getValue(String.class);
                     String name = ds.child("name").getValue(String.class);
                     String mail = ds.child("mail").getValue(String.class);
                     String imgURL = ds.child("imgURL").getValue(String.class);
@@ -165,5 +172,23 @@ public class LoadingActivity extends AppCompatActivity {
                 Log.d("Error", databaseError.toString());
             }
         });
+    }
+
+    public void loadToLists(Event event) {
+        String str = event.getDate()+ " " + event.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz", Locale.ENGLISH);
+        Date date;
+        Date currentDate = new Date();
+        df.format(currentDate);
+        try {
+            date = df.parse(str);
+            if (currentDate.before(date)) {
+                EventFirebaseManager.getInstance().setEvents(event, 1);
+            } else {
+                EventFirebaseManager.getInstance().setEvents(event, 2);
+            }
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
     }
 }

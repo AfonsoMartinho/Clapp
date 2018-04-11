@@ -44,6 +44,8 @@ public class Calendar extends Fragment {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,7 +130,6 @@ public class Calendar extends Fragment {
         String str = event.getDate() + " " + event.getTime();
         SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz", Locale.ENGLISH);
         Date date;
-
         try {
             date = df.parse(str);
             long epoch = date.getTime();

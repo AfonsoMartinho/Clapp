@@ -38,8 +38,7 @@
             android:name=".EventActivity"
             android:hardwareAccelerated="true" />
         <activity android:name=".CreateEvent" />
-        <activity android:name=".MapActivity" />
-        <activity android:name=".LoadingActivity"></activity>
+        <activity android:name=".LoadingActivity" />
     </application>
 
 </manifest>

@@ -1,7 +1,9 @@
 package com.project.clapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,19 +14,48 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.project.clapp.clapp.MyEvents;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.project.clapp.impl.UserFirebaseManager;
+import com.project.clapp.models.User;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
+    ImageView iv;
+    TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        User user = new User();
+
+        mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+        ArrayList<User> userList = UserFirebaseManager.getInstance().getUserList();
+        for (int i = 0; i < userList.size(); i++) {
+            System.out.println(userList.get(i).getUserId());
+            if (userId.equals(userList.get(i).getUserId())) {
+                System.out.println("gato");
+                user = userList.get(i);
+            }
+        }
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_plus);
@@ -39,6 +70,10 @@ public class Home extends AppCompatActivity
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -46,6 +81,42 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+
+        tv = headerView.findViewById(R.id.nameNavBar);
+        tv.setText(user.getName());
+
+        iv = headerView.findViewById(R.id.imgNavBar);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference userImg = mStorageRef.child("users").child(user.getImgURL());
+
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final File newFile = localFile;
+        userImg.getFile(newFile)
+                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        // Successfully downloaded data to local file
+                        // ...
+
+                        iv.setImageURI(Uri.fromFile(newFile));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle failed download
+                // ...
+            }
+
+
+        });
 
         setTitle("Calendar");
         Calendar calendar = new Calendar();
@@ -55,7 +126,7 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -84,6 +155,8 @@ public class Home extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -119,7 +192,7 @@ public class Home extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -25,12 +25,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,8 +46,12 @@ import com.google.firebase.storage.UploadTask;
 import com.project.clapp.impl.EventFirebaseManager;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class CreateEvent extends AppCompatActivity implements NumberPicker.OnValueChangeListener {
 
@@ -68,10 +77,12 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     private StorageReference mStorageRef;
     private static final String TAG = "Check";
     private static final int ERROR_DIALOG_REQUEST = 9001;
-    private static final int REQUEST_CAMERA = 1, SELECT_FILE = 2, REQUEST_LOCATION = 3;
+    private static final int REQUEST_CAMERA = 1, SELECT_FILE = 2, PLACE_PICKER_REQUEST = 3;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 321;
     private FirebaseAuth mAuth;
+    private ImageButton dateInput, timeInput, localInput, tagsInput, durationInput, priceInput, descInput, imgInput, limitInput;
+
 
 
     @Override
@@ -83,19 +94,43 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         FirebaseUser user = mAuth.getCurrentUser();
         userId = user.getUid();
 
+
+
+
+        dateInput = findViewById(R.id.dateInput);
+        timeInput = findViewById(R.id.timeInput);
+        durationInput = findViewById(R.id.durInput);
+        tagsInput = findViewById(R.id.tagsInput);
+        localInput = findViewById(R.id.localInput);
+        priceInput = findViewById(R.id.priceInput);
+        limitInput = findViewById(R.id.limitInput);
+        imgInput = findViewById(R.id.imgInput);
+        descInput = findViewById(R.id.descInput);
+
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                date = "";
                 Log.d(TAG, "onDateSet: date: " + i + "/" + i1 + "/" + i2);
                 final CharSequence[] items = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Set", "Oct", "Nov", "Dec"};
-                date += items[i1] + " " + i2 + " " + i;
+                if (i1 != 0 || i2 != 0|| i != 0) {
+                    dateInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                    date += items[i1] + " " + i2 + " " + i;
+                } else {
+                    dateInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
             }
         };
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 Log.d(TAG, "onTimeSet: time: " + i + ":" + i1);
-                time += i + ":" + i1 + " UTC";
+                if (i1 != 0 && i1 != 0) {
+                    timeInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                    time += i + ":" + i1 + " UTC";
+                } else {
+                    timeInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
             }
         };
     }
@@ -129,19 +164,36 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
         if(resultCode== Activity.RESULT_OK) {
             if (requestCode==REQUEST_CAMERA) {
+                System.out.println("gato");
                 Bundle bundle = data.getExtras();
                 bmp = (Bitmap) bundle.get("data");
+                if (bmp != null) {
+                    imgInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                } else {
+                    imgInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
 
             } else if (requestCode==SELECT_FILE) {
+                System.out.println("cao");
                 Bundle bundle = data.getExtras();
                 bmp = (Bitmap) bundle.get("data");
+                if (bmp != null) {
+                    imgInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                } else {
+                    imgInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
 
-            } else if (requestCode==REQUEST_LOCATION) {
-                Bundle bundle = data.getExtras();
-                local = bundle.get("address").toString();
-                place = bundle.get("name").toString();
-                longitude = Double.parseDouble(bundle.get("longitude").toString());
-                latitude = Double.parseDouble(bundle.get("latitude").toString());
+            } else if (requestCode==PLACE_PICKER_REQUEST) {
+                Place myPlace = PlacePicker.getPlace(data, this);
+                local = myPlace.getAddress().toString();
+                place = myPlace.getName().toString();
+                longitude = myPlace.getLatLng().longitude;
+                latitude = myPlace.getLatLng().latitude;
+                if (!local.equals("")) {
+                    localInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                } else {
+                    localInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
 
             }
         }
@@ -181,6 +233,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                 android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                 mTimeSetListener,
                 hour, min, false
+
         );
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -228,6 +281,11 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                 Log.d(TAG, "" + np3.getValue());
                 duration += np1.getValue() +"D"+np2.getValue()+"H"+np3.getValue()+"m";
                 mDurationDialog.dismiss();
+                if (!duration.equals("")) {
+                    durationInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                } else {
+                    durationInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
@@ -253,6 +311,11 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                 Log.d(TAG, "" + limitTxt.getText());
                 limit = Integer.parseInt(limitTxt.getText().toString());
                 mLimitDialog.dismiss();
+                if (limit != 0) {
+                    limitInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                } else {
+                    limitInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
             }
         });
         mLimitDialog.show();
@@ -261,7 +324,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
         final CharSequence[] items = {"Workshop","Lecture","Documentary","Tutorial","Dinner","Fun Activity"};
 
-        final ArrayList selectedItems=new ArrayList();
+        final ArrayList selectedItems= new ArrayList();
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Select the tags for the Event")
@@ -286,6 +349,10 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                             tags.add(selectedItems.get(i).toString());
                         }
 
+                        if (!tags.isEmpty()) {
+                            tagsInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                        }
+
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -294,6 +361,8 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                     }
                 }).create();
         dialog.show();
+
+
     }
 
 
@@ -311,6 +380,11 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                 Log.d(TAG, "" + descTxt.getText());
                 desc += descTxt.getText();
                 mDescriptionDialog.dismiss();
+                if (!desc.equals("")) {
+                    descInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                } else {
+                    descInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
             }
         });
         mDescriptionDialog.show();
@@ -349,10 +423,10 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         np1.setWrapSelectorWheel(false);
         np1.setOnValueChangedListener(this);
 
-        np1.setMaxValue(99);
-        np1.setMinValue(0);
-        np1.setWrapSelectorWheel(false);
-        np1.setOnValueChangedListener(this);
+        np2.setMaxValue(99);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+        np2.setOnValueChangedListener(this);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,7 +435,13 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                 Log.d(TAG, "" + np2.getValue());
                 String price = np1.getValue() + "." + np2.getValue();
                 preco = Double.parseDouble(price);
+                if (preco == 0) {
+                    priceInput.setBackgroundColor(Color.parseColor("#ffbb00"));
+                } else {
+                    priceInput.setBackgroundColor(Color.parseColor("#ffaa22"));
+                }
                 mPriceDialog.dismiss();
+
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
@@ -396,52 +476,104 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
         builder.show();
     }
 
+    public void createDialogWarn(String error) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("The event " + error)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
 
+                    }})
+                .create();
+        dialog.show();
+    }
+
+    public boolean verifyData() {
+        String str = date + " " + time;
+        boolean timeSkip = false;
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz", Locale.ENGLISH);
+        Date dateCR;
+        Date currentDate = new Date();
+        df.format(currentDate);
+        try {
+            dateCR = df.parse(str);
+            if (dateCR.before(currentDate)) {
+                timeSkip = true;
+            }
+
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
+
+        name = nameTxt.getText().toString();
+        if (name.equals("")) {
+            createDialogWarn("needs a name");
+            return false;
+        } else if (local.equals("")) {
+            createDialogWarn("needs a location");
+            return false;
+        } else if (time.equals("")) {
+            createDialogWarn("needs a time");
+            return false;
+        } else if (date.equals("")) {
+            createDialogWarn("needs a date");
+            return false;
+        } else if (tags.isEmpty()) {
+            createDialogWarn("needs some tags");
+            return false;
+        } else if (bmp==null) {
+            createDialogWarn("needs an image");
+            return false;
+        } else if (timeSkip==true){
+            createDialogWarn("cannot be created in the past");
+            return false;
+        } else {
+            return true;
+        }
+
+    }
 
 
     public void createEvent(View view) {
 
+            if(verifyData()) {
+                saveImage(getImageUri(this, bmp));
 
-        name = nameTxt.getText().toString();
+                try {
+                    EventFirebaseManager efm = EventFirebaseManager.getInstance();
+                    efm.addEvent(
+                            name,
+                            date,
+                            time,
+                            place,
+                            local,
+                            duration,
+                            preco,
+                            desc,
+                            limit,
+                            userId,
+                            latitude,
+                            longitude,
+                            imgURL,
+                            tags);
 
-        saveImage(getImageUri(this, bmp));
-
-        try {
-            EventFirebaseManager efm = EventFirebaseManager.getInstance();
-            efm.addEvent(
-                    name,
-                    date,
-                    time,
-                    place,
-                    local,
-                    duration,
-                    preco,
-                    desc,
-                    limit,
-                    userId,
-                    latitude,
-                    longitude,
-                    imgURL,
-                    tags);
-
-            AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setTitle("Event created with success")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setTitle("Event created with success")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     Intent intent = new Intent(CreateEvent.this, LoadingActivity.class);
                                     startActivity(intent);
                                 }})
-                    .create();
-            Intent intent = new Intent(CreateEvent.this, LoadingActivity.class);
-            startActivity(intent);
-            dialog.show();
+                            .create();
+                    Intent intent = new Intent(CreateEvent.this, LoadingActivity.class);
+                    startActivity(intent);
+                    dialog.show();
 
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
-
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            }
     }
 
     //MAP
@@ -453,8 +585,16 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     }
 
     private void initMap() {
-        Intent intent = new Intent(CreateEvent.this, MapActivity.class);
-        startActivityForResult(intent, REQUEST_LOCATION);
+        //Intent intent = new Intent(CreateEvent.this, MapActivity.class);
+        //startActivityForResult(intent, REQUEST_LOCATION);
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isServicesOK() {
@@ -485,8 +625,10 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                     if (readCheck != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(
                                 CreateEvent.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    } else {
+                        checkImage();
                     }
-                    checkImage();
+
                 }
                 break;
             case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:

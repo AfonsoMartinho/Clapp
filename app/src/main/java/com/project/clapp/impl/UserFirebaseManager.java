@@ -24,6 +24,9 @@ public class UserFirebaseManager implements IUser {
     }
 
     @Override
+    public ArrayList<User> getUserList() {return userList;}
+
+    @Override
     public void clearUsers() {
         userList.clear();
     }
