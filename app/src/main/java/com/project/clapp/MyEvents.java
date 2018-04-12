@@ -64,8 +64,6 @@ public class MyEvents extends Fragment {
             }
         });
 
-
-
         return rootView;
     }
     public void filterEvents(final View view) {

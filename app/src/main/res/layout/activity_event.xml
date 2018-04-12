@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapEvent" />
+        app:layout_constraintTop_toBottomOf="@+id/nearYouMap" />
 
     <TextView
         android:id="@+id/eventNumInput"
@@ -41,7 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/eventLocationInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapEvent" />
+        app:layout_constraintTop_toBottomOf="@+id/nearYouMap" />
 
     <TextView
         android:id="@+id/eventNameInput"
@@ -60,7 +60,7 @@
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/mapEvent"
+        android:id="@+id/nearYouMap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"

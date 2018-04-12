@@ -116,7 +116,6 @@ public class EventActivity extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference eventImg = mStorageRef.child("events").child(EVENT.getImgURL());
-        System.out.println(EVENT.getImgURL());
         File localFile = null;
         try {
             localFile = File.createTempFile("images", "jpg");
@@ -246,7 +245,7 @@ public class EventActivity extends AppCompatActivity {
         mMap.addMarker(options);
         mMap.getUiSettings().setScrollGesturesEnabled(false);    }
     private void initMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapEvent);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.nearYouMap);
 
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override

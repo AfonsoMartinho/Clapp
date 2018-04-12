@@ -69,7 +69,7 @@ public class Home extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
 
 
@@ -189,7 +189,10 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.qrCode) {
 
         } else if (id == R.id.geolocation) {
-
+            setTitle("Near You");
+            NearYouMap nearYou = new NearYouMap();
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.fragment, nearYou).commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

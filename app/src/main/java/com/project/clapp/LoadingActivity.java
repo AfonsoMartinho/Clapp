@@ -46,7 +46,7 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
                 try {
                     super.run();
-                    sleep(2000);
+                    sleep(1500);
                 } catch (Exception e) {
 
                 } finally {
