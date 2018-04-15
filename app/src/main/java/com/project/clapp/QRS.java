@@ -34,18 +34,25 @@ public class QRS extends AppCompatActivity {
         integrator.initiateScan();
     }
 
+    public void retHome() {
+        Intent intent = new Intent(QRS.this, Home.class);
+        intent.putExtra("goto", "qrScan");
+        startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-                Toast.makeText(this, "Scanning cancelado.", Toast.LENGTH_LONG).show();
-                System.out.println("cancel");
+                Toast.makeText(this, "Cancelled QR Scan", Toast.LENGTH_LONG).show();
+                retHome();
             } else {
                 Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 Event event = EventFirebaseManager.getInstance().getEvent(result.getContents());
                 if (event.getId() == null) {
                     Toast.makeText(this, "This QR Code doesn't belong to an event", Toast.LENGTH_LONG).show();
+                    retHome();
                 } else {
                     Intent intent = new Intent(QRS.this, EventActivity.class);
                     intent.putExtra("id", result.getContents().toString());
@@ -57,6 +64,4 @@ public class QRS extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-
 }

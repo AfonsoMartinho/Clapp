@@ -23,7 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.clapp.impl.EventFirebaseManager;
 import com.project.clapp.impl.UserFirebaseManager;
+import com.project.clapp.models.Event;
 import com.project.clapp.models.User;
 
 import java.io.File;
@@ -118,10 +120,31 @@ public class Home extends AppCompatActivity
 
         });*/
 
-        setTitle("Calendar");
-        Calendar calendar = new Calendar();
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragment, calendar).commit();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            String goTo = extras.getString("goto");
+            System.out.println(goTo);
+            if (goTo.equals("calendar")) {
+                setTitle("Calendar");
+                Calendar calendar = new Calendar();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.fragment, calendar).commit();
+            } else if (goTo.equals("qrScan")) {
+                setTitle("QR Scan");
+                QRScanner QRS = new QRScanner();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.fragment, QRS).commit();
+            } else if (goTo.equals("myEvents")) {
+                setTitle("My Events");
+                MyEvents myE = new MyEvents();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.fragment, myE).commit();
+            }
+
+        }
+
+
     }
 
     @Override

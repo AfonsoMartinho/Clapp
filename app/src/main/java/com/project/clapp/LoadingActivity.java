@@ -53,6 +53,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                     Intent i = new Intent(LoadingActivity.this,
                             Home.class);
+                    i.putExtra("goto", "calendar");
                     startActivity(i);
                     finish();
                 }
