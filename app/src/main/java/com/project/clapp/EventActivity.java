@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -254,5 +255,23 @@ public class EventActivity extends AppCompatActivity {
                 moveCamera(latlng, DEFAULT_ZOOM, address);
             }
         });
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        System.out.println("back press");
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            Intent intent = new Intent(EventActivity.this, Home.class);
+            startActivity(intent);
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

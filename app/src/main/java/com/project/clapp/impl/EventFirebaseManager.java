@@ -62,6 +62,13 @@ public class EventFirebaseManager implements IEvent{
                 event = eventList.get(i);
             }
         }
+        if (event.getId() == null) {
+            for (int i = 0; i < oldEvents.size(); i++) {
+                if (id.equals(oldEvents.get(i).getId())) {
+                    event = oldEvents.get(i);
+                }
+            }
+        }
         return event;
     }
 

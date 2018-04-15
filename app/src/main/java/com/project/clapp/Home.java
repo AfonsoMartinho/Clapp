@@ -187,7 +187,10 @@ public class Home extends AppCompatActivity
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().replace(R.id.fragment, goingEvents).commit();
         } else if (id == R.id.qrCode) {
-
+            setTitle("Scanner");
+            QRScanner qrScanner = new QRScanner();
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.fragment, qrScanner).commit();
         } else if (id == R.id.geolocation) {
             setTitle("Near You");
             NearYouMap nearYou = new NearYouMap();

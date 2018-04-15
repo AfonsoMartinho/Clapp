@@ -35,7 +35,7 @@ public class Authentication extends AppCompatActivity {
         passUser = findViewById(R.id.inputPass);
         errorMessage = findViewById(R.id.errorMessage);
         imgView = findViewById(R.id.imgIcon);
-        imgView.setImageResource(R.drawable.hashsip);
+        //imgView.setImageResource(R.drawable.hashsip);
 
         //mAuth.signOut();
     }
