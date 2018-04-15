@@ -189,7 +189,7 @@ public class EventActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             cancelRegist();
                             join = false;
-                            button.setBackgroundColor(Color.parseColor("#ffbb00"));
+                            button.setBackgroundColor(Color.parseColor("#273469"));
                             button.setText("Join");
                         }
                     }).setNegativeButton("No", new DialogInterface.OnClickListener() {

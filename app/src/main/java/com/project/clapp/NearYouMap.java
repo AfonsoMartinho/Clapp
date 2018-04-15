@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -20,11 +22,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.clapp.impl.EventFirebaseManager;
 import com.project.clapp.models.Event;
 
@@ -33,7 +37,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NearYouMap extends Fragment {
+public class NearYouMap extends Fragment implements GoogleMap.OnMarkerClickListener {
     private GoogleMap mMap;
     LatLng latlng;
     String id_event;
@@ -43,8 +47,12 @@ public class NearYouMap extends Fragment {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private Boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    Button btnGet;
-
+    private FirebaseAuth mAuth;
+    String userID;
+    ArrayList<String> eventIDs = new ArrayList<>();
+    ArrayList<Marker> markerList = new ArrayList<>();
+    TextView nameEventMap, dateEventMap, placeEventMap;
+    LinearLayout ln;
 
     public NearYouMap() {
         // Required empty public constructor
@@ -56,13 +64,19 @@ public class NearYouMap extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_near_you_map, container, false);
-        btnGet = view.findViewById(R.id.btnGetEvent);
-        btnGet.setVisibility(View.GONE);
-        btnGet.setEnabled(false);
+        nameEventMap = view.findViewById(R.id.nameEventMap);
+        placeEventMap = view.findViewById(R.id.placeEventMap);
+        dateEventMap = view.findViewById(R.id.dateEventMap);
+        ln = view.findViewById(R.id.mapEventCard);
+        ln.setVisibility(View.GONE);
+        ln.setEnabled(false);
+
+        mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
         // Inflate the layout for this fragment
         getLocationPermission();
 
-        btnGet.setOnClickListener(new Button.OnClickListener() {
+        ln.setOnClickListener(new LinearLayout.OnClickListener() {
             public void onClick(View v) {
                 getEvent();
             }
@@ -78,8 +92,6 @@ public class NearYouMap extends Fragment {
         for (int i = 0; i < EVENTS.size(); i++) {
             LatLng lnglat = new LatLng(EVENTS.get(i).getLatitude(), EVENTS.get(i).getLongitude());
             setMarker(lnglat, EVENTS.get(i));
-
-
         }
 
     }
@@ -93,21 +105,33 @@ public class NearYouMap extends Fragment {
 
 
     private void setMarker(LatLng latlng, final Event event) {
+        if (event.getuID().equals(userID)) {
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(latlng)
+                    .snippet(event.getId())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title(event.getName()));
 
-        Marker marker = mMap.addMarker(new MarkerOptions()
-                .position(latlng)
-                .title(event.getName()));
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker m) {
-                m.showInfoWindow();
-                id_event = event.getId();
-                btnGet.setVisibility(View.VISIBLE);
-                btnGet.setEnabled(true);
-                return true;
-            }
-        });
+            markerList.add(marker);
+        } else if (event.getUserList().contains(userID)) {
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(latlng)
+                    .snippet(event.getId())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .title(event.getName()));
+
+            markerList.add(marker);
+        } else {
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(latlng)
+                    .snippet(event.getId())
+                    .title(event.getName()));
+
+            markerList.add(marker);
+        }
+
     }
+
 
 
     private void getDeviceLocation() {
@@ -178,6 +202,11 @@ public class NearYouMap extends Fragment {
             }
         }
     }
+
+    public void markerClick() {
+        mMap.setOnMarkerClickListener(this);
+    }
+
     private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.nearYouMap);
 
@@ -198,9 +227,36 @@ public class NearYouMap extends Fragment {
                     mMap.setMyLocationEnabled(true);
                     mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
+                    markerClick();
+
                 }
+
             }
         });
+
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        ln.setVisibility(View.VISIBLE);
+        ln.setEnabled(true);
+
+
+        for (int i = 0;  i < markerList.size(); i++) {
+            if (marker.getSnippet().equals(markerList.get(i).getSnippet()))
+            {
+                for (int z = 0; z < EventFirebaseManager.getInstance().getEventList().size(); z++) {
+                    if (marker.getSnippet().equals(EventFirebaseManager.getInstance().getEventList().get(i).getId())) {
+                        nameEventMap.setText(EventFirebaseManager.getInstance().getEventList().get(i).getName());
+                        placeEventMap.setText(EventFirebaseManager.getInstance().getEventList().get(i).getPlace());
+                        dateEventMap.setText(EventFirebaseManager.getInstance().getEventList().get(i).getDate() + " " + EventFirebaseManager.getInstance().getEventList().get(i).getTime());
+                    }
+                }
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                id_event = markerList.get(i).getSnippet();
+            }
+        }
+
+        return false;
+    }
 }

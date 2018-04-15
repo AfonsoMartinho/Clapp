@@ -89,7 +89,7 @@ public class Home extends AppCompatActivity
 
         iv = headerView.findViewById(R.id.imgNavBar);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        /*mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference userImg = mStorageRef.child("users").child(user.getImgURL());
 
         File localFile = null;
@@ -116,7 +116,7 @@ public class Home extends AppCompatActivity
             }
 
 
-        });
+        });*/
 
         setTitle("Calendar");
         Calendar calendar = new Calendar();

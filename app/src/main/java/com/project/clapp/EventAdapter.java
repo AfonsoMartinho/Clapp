@@ -121,10 +121,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView nameEvent, typeEvent, creatorEvent, localEvent, hourEvent, placeEvent, dateEvent;
+        protected TextView nameEvent, localEvent, hourEvent, dateEvent;
         protected ImageView imageEvent;
         private CardView cv;
-        private Button btnView;
 
         public ViewHolder(View itemView) {
             super(itemView);
