@@ -1,6 +1,7 @@
 package com.project.clapp.impl;
 
 
+import com.google.firebase.database.DatabaseReference;
 import com.project.clapp.models.User;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public interface IUser {
     void addUser(String userId, String mail);
 
     ArrayList<User> getUserList();
+
+    void addToFirebase(DatabaseReference dr, User user);
 
     void removeUser(String name);
 

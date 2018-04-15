@@ -161,9 +161,27 @@ public class LoadingActivity extends AppCompatActivity {
                     int rep = ds.child("rep").getValue(int.class);
                     int numEvent = ds.child("numEvent").getValue(int.class);
 
+                    if (init) {
+                        User user = new User(name, id, mail, tel, imgURL, numEvent, rep);
+                        loadUsersToList(user);
+                        init = false;
 
-                    User user = new User(name, id, mail, tel, imgURL, numEvent, rep);
-                    UserFirebaseManager.getInstance().getUsers(user);
+
+
+                    } else {
+                        boolean exists = false;
+                        ArrayList<User> USERSF = UserFirebaseManager.getInstance().getUserList();
+                        for (int i = 0; i < USERSF.size(); i++) {
+                            if (USERSF.get(i).getUserId().equals(id)) {
+                                exists = true;
+                                z = i;
+                            }
+                        }
+                        if (!exists) {
+                            User user = new User(name, id, mail, tel, imgURL, numEvent, rep);
+                            loadUsersToList(user);
+                        }
+                    }
                 }
 
             }
@@ -191,5 +209,9 @@ public class LoadingActivity extends AppCompatActivity {
         } catch (ParseException e) {
             System.out.println(e);
         }
+    }
+
+    public void loadUsersToList(User user) {
+        UserFirebaseManager.getInstance().getUsers(user);
     }
 }

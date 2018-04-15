@@ -41,7 +41,8 @@
             android:hardwareAccelerated="true" />
         <activity android:name=".CreateEvent" />
         <activity android:name=".LoadingActivity" />
-        <activity android:name=".QRS"></activity>
+        <activity android:name=".QRS" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>
