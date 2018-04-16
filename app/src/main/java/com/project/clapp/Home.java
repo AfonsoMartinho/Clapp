@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,7 +92,7 @@ public class Home extends AppCompatActivity
 
         iv = headerView.findViewById(R.id.imgNavBar);
 
-        /*mStorageRef = FirebaseStorage.getInstance().getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference userImg = mStorageRef.child("users").child(user.getImgURL());
 
         File localFile = null;
@@ -118,7 +119,7 @@ public class Home extends AppCompatActivity
             }
 
 
-        });*/
+        });
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -142,6 +143,11 @@ public class Home extends AppCompatActivity
                 fm.beginTransaction().replace(R.id.fragment, myE).commit();
             }
 
+        } else {
+            setTitle("Calendar");
+            Calendar calendar = new Calendar();
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.fragment, calendar).commit();
         }
 
 
@@ -231,5 +237,16 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            Intent intent = new Intent(Home.this, Authentication.class);
+            startActivity(intent);
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

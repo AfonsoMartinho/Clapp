@@ -89,8 +89,6 @@ public class Calendar extends Fragment {
                     EVENTSFINAL.add(event);
                     fillEventList(rootView);
                 }
-                Log.d("gato", Integer.toString(EVENTSFINAL.size()));
-                Log.d("gato", "Day was clicked: " + dateClicked + " with events " + events);
 
             }
 
@@ -98,7 +96,6 @@ public class Calendar extends Fragment {
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 month.setText(monthFormat.format(firstDayOfNewMonth));
                 year.setText(yearFormat.format(firstDayOfNewMonth));
-                Log.d("gato", "Month was scrolled to: " + firstDayOfNewMonth);
             }
         });
 

@@ -163,6 +163,12 @@ public class EventActivity extends AppCompatActivity {
 
     }
 
+    public void viewUsers(View view) {
+        Intent i = new Intent(EventActivity.this, UserListEvent.class);
+        i.putExtra("eventID", EVENT.getId());
+        startActivity(i);
+    }
+
     public void joinEvent(final View view) {
         if (!join) {
             AlertDialog dialog = new AlertDialog.Builder(this)

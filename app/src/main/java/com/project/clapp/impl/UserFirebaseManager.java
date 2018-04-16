@@ -39,11 +39,9 @@ public class UserFirebaseManager implements IUser {
 
     @Override
     public User getUser(String userID) {
-        System.out.print(userID);
         ArrayList<User> users = UserFirebaseManager.getInstance().getUserList();
         for (int i = 0; i < users.size(); i++) {
             if (userID.equals(users.get(i).getUserId())) {
-                System.out.print("yes");
                 return users.get(i);
             }
         }
