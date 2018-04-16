@@ -107,7 +107,7 @@ public class MyEvents extends Fragment {
     }
 
     public void fillEventList(View view) {
-
+        EVENTSMy.clear();
         EVENTS = EventFirebaseManager.getInstance().getEventListTagFilter(tags);
 
 

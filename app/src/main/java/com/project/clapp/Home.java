@@ -1,5 +1,7 @@
 package com.project.clapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -89,6 +91,16 @@ public class Home extends AppCompatActivity
 
         tv = headerView.findViewById(R.id.nameNavBar);
         tv.setText(user.getName());
+
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setTitle("Profile");
+                Intent intent = new Intent(Home.this, ProfileActivity.class);
+                intent.putExtra("userID", mAuth.getCurrentUser().getUid());
+                startActivity(intent);
+            }
+        });
 
         iv = headerView.findViewById(R.id.imgNavBar);
 
@@ -231,7 +243,21 @@ public class Home extends AppCompatActivity
             intent.putExtra("userID", mAuth.getCurrentUser().getUid());
             startActivity(intent);
         } else if (id == R.id.logout) {
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("Do you wish to logout?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(Home.this, Authentication.class);
+                            startActivity(intent);
+                        }})
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
 
+                        }})
+                    .create();
+            dialog.show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -243,9 +269,23 @@ public class Home extends AppCompatActivity
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
-            Intent intent = new Intent(Home.this, Authentication.class);
-            startActivity(intent);
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("Do you wish to logout?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(Home.this, Authentication.class);
+                            startActivity(intent);
+                        }})
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }})
+                    .create();
+            dialog.show();
             return false;
+
         }
         return super.onKeyDown(keyCode, event);
     }

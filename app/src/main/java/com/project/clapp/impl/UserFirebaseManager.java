@@ -78,7 +78,7 @@ public class UserFirebaseManager implements IUser {
                 }
 
                 if (users.isEmpty()) {
-                    User user = new User("rename me",userId, mail, 999999999, "", 0, 50);
+                    User user = new User("rename me",userId, mail, 999999999, "default.png", 0, 50);
                     addToFirebase(databaseUsers, user);
                 } else {
                     boolean exists = false;
@@ -89,7 +89,7 @@ public class UserFirebaseManager implements IUser {
                     }
 
                     if (exists == false) {
-                        User user = new User("rename me",userId, mail, 999999999, "", 0, 50);
+                        User user = new User("rename me",userId, mail, 999999999, "default.png", 0, 50);
                         addToFirebase(databaseUsers, user);
                     }
                 }

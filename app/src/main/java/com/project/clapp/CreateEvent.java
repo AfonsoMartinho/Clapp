@@ -566,8 +566,6 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
                                     startActivity(intent);
                                 }})
                             .create();
-                    Intent intent = new Intent(CreateEvent.this, LoadingActivity.class);
-                    startActivity(intent);
                     dialog.show();
 
                 } catch (Exception e) {

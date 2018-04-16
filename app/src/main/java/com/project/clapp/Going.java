@@ -109,6 +109,7 @@ public class Going extends Fragment {
     }
 
     public void fillEventList(View view) {
+        EVENTSGoing.clear();
         EVENTS = EventFirebaseManager.getInstance().getEventListTagFilter(tags);
 
         for (int i = 0; i < EVENTS.size(); i++) {

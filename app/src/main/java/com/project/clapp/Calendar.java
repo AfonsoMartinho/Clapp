@@ -87,8 +87,9 @@ public class Calendar extends Fragment {
 
                     com.project.clapp.models.Event event = EventFirebaseManager.getInstance().getEvent(data);
                     EVENTSFINAL.add(event);
-                    fillEventList(rootView);
+
                 }
+                fillEventList(rootView);
 
             }
 

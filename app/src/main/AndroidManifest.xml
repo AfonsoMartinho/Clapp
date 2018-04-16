@@ -33,15 +33,21 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EventActivity"
+            android:screenOrientation="portrait"
             android:hardwareAccelerated="true" />
-        <activity android:name=".CreateEvent" />
-        <activity android:name=".LoadingActivity" />
+        <activity android:name=".CreateEvent"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoadingActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".QRS" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".UserListEvent"></activity>
+        <activity android:name=".ProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserListEvent"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

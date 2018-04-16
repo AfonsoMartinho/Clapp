@@ -37,7 +37,7 @@ public class Authentication extends AppCompatActivity {
         imgView = findViewById(R.id.imgIcon);
         //imgView.setImageResource(R.drawable.hashsip);
 
-        //mAuth.signOut();
+        mAuth.signOut();
     }
 
     public void login(View view) {
@@ -67,10 +67,5 @@ public class Authentication extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    public void entrar(View view) {
-        Intent intent = new Intent(Authentication.this, LoadingActivity.class);
-        startActivity(intent);
     }
 }
