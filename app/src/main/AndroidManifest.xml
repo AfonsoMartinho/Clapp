@@ -48,6 +48,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".UserListEvent"
             android:screenOrientation="portrait"/>
+        <activity android:name=".EventListByUser"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

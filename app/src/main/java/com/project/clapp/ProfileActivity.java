@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import java.io.IOException;
 public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
+    String userID;
     TextView name, email, telemovel;
     ImageView img;
     RatingBar rt;
@@ -32,7 +34,6 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        String userID;
         User user = new User();
 
 
@@ -89,5 +90,11 @@ public class ProfileActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    public void getEvents(View view) {
+        Intent intent = new Intent(ProfileActivity.this, EventListByUser.class);
+        intent.putExtra("userID", userID);
+        startActivity(intent);
     }
 }

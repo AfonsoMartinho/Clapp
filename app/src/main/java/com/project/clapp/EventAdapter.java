@@ -62,11 +62,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Event event = eventList.get(position);
         holder.nameEvent.setText(event.getName());
-        holder.localEvent.setText(event.getLocal());
-        holder.hourEvent.setText(event.getTime());
 
         if (listType == 1) {
-            holder.dateEvent.setText(event.getDate());
             mStorageRef = FirebaseStorage.getInstance().getReference();
             StorageReference eventImg = mStorageRef.child("events").child(event.getImgURL());
 
@@ -121,9 +118,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             super(itemView);
             if (listType == 1) {
                 nameEvent = itemView.findViewById(R.id.nameEvent);
-                localEvent = itemView.findViewById(R.id.localEvent);
-                hourEvent = itemView.findViewById(R.id.timeEvent);
-                dateEvent = itemView.findViewById(R.id.dateEvent);
                 imageEvent = itemView.findViewById(R.id.imgEvent);
                 cv = itemView.findViewById(R.id.cardEvent);
 

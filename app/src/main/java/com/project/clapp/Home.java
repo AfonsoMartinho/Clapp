@@ -211,11 +211,6 @@ public class Home extends AppCompatActivity
             NearYouMap nearYou = new NearYouMap();
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().replace(R.id.fragment, nearYou).commit();
-        } else if (id == R.id.user) {
-            setTitle("Profile");
-            Intent intent = new Intent(Home.this, ProfileActivity.class);
-            intent.putExtra("userID", mAuth.getCurrentUser().getUid());
-            startActivity(intent);
         } else if (id == R.id.logout) {
             AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle("Do you wish to logout?")
