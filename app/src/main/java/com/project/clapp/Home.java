@@ -50,16 +50,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
         User user = new User();
 
-        mAuth = FirebaseAuth.getInstance();
-        String userId = mAuth.getCurrentUser().getUid();
-        ArrayList<User> userList = UserFirebaseManager.getInstance().getUserList();
-        for (int i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i).getUserId());
-            if (userId.equals(userList.get(i).getUserId())) {
-                System.out.println("gato");
-                user = userList.get(i);
-            }
-        }
+
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -89,8 +80,7 @@ public class Home extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
 
-        tv = headerView.findViewById(R.id.nameNavBar);
-        tv.setText(user.getName());
+
 
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,34 +94,18 @@ public class Home extends AppCompatActivity
 
         iv = headerView.findViewById(R.id.imgNavBar);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference userImg = mStorageRef.child("users").child(user.getImgURL());
-
-        File localFile = null;
-        try {
-            localFile = File.createTempFile("images", "jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        final File newFile = localFile;
-        userImg.getFile(newFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        // Successfully downloaded data to local file
-                        // ...
-
-                        iv.setImageURI(Uri.fromFile(newFile));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle failed download
-                // ...
+        mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+        ArrayList<User> userList = UserFirebaseManager.getInstance().getUserList();
+        for (int i = 0; i < userList.size(); i++) {
+            if (userId.equals(userList.get(i).getUserId())) {
+                user = userList.get(i);
+                loadPic(headerView, user);
             }
 
+        }
 
-        });
+
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -263,6 +237,40 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void loadPic(View headerView, User user) {
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        System.out.println(user.getImgURL());
+        StorageReference userImg = mStorageRef.child("users").child(user.getImgURL());
+
+        tv = headerView.findViewById(R.id.nameNavBar);
+        tv.setText(user.getName());
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final File newFile = localFile;
+        userImg.getFile(newFile)
+                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        // Successfully downloaded data to local file
+                        // ...
+
+                        iv.setImageURI(Uri.fromFile(newFile));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle failed download
+                // ...
+            }
+
+
+        });
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)

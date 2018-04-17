@@ -46,9 +46,9 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
                 try {
                     super.run();
-                    sleep(1500);
+                    sleep(2000);
                 } catch (Exception e) {
-
+                    System.out.println(e);
                 } finally {
 
                     Intent i = new Intent(LoadingActivity.this,

@@ -17,7 +17,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.project.clapp.impl.EventFirebaseManager;
 import com.project.clapp.models.Event;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 /**
