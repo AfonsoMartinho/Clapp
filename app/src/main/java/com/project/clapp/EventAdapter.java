@@ -123,8 +123,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
             } else {
                 nameEvent = itemView.findViewById(R.id.nameEventCal);
-                localEvent = itemView.findViewById(R.id.localEventCal);
-                hourEvent = itemView.findViewById(R.id.timeEventCal);
+                //localEvent = itemView.findViewById(R.id.localEventCal);
+                //hourEvent = itemView.findViewById(R.id.timeEventCal);
                 cv = itemView.findViewById(R.id.cardCalEvent);
             }
 
