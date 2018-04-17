@@ -7,6 +7,22 @@
     tools:context=".EventActivity">
 
     <TextView
+        android:id="@+id/eventDurationInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
+        android:layout_weight="1"
+        android:text="Duration"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventDateInput" />
+
+    <TextView
         android:id="@+id/txtRegistos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,13 +37,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nearYouMap" />
+        app:layout_constraintTop_toBottomOf="@+id/nearYouMap"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/eventNumInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -38,24 +54,24 @@
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/eventLocationInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nearYouMap" />
 
     <TextView
         android:id="@+id/eventNameInput"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
+        android:layout_height="102dp"
         android:background="@color/colorPrimaryDark"
+        android:gravity="center"
         android:text="Event Name"
         android:textColor="@color/cardview_light_background"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageViewInput"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,10 +79,9 @@
         android:id="@+id/nearYouMap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtRegistos"
+        android:layout_height="177dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewInput"
         app:layout_constraintTop_toBottomOf="@+id/eventNameInput"
         tools:context=".MapsActivity" />
 
@@ -74,7 +89,8 @@
         android:id="@+id/eventDateInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:text="Date"
@@ -82,8 +98,6 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/eventTimeInput"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eventLocationInput" />
 
@@ -91,79 +105,72 @@
         android:id="@+id/eventMaxInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="52dp"
         android:layout_weight="1"
         android:text="MaxRegisters"
         android:textAlignment="viewEnd"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventPriceInput" />
 
     <TextView
         android:id="@+id/eventPriceInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="52dp"
         android:layout_weight="1"
         android:text="Price"
         android:textAlignment="viewStart"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/eventMaxInput"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventTimeInput" />
 
     <TextView
         android:id="@+id/eventTimeInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="79dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:text="Time"
         android:textAlignment="viewEnd"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventDateInput" />
+        app:layout_constraintTop_toBottomOf="@+id/eventLocationInput" />
 
     <TextView
         android:id="@+id/eventCreatorInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="31dp"
-        android:layout_marginEnd="229dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="229dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="121dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
         android:layout_weight="1"
         android:text="Creator"
         android:textAlignment="viewEnd"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
-        app:layout_constraintEnd_toStartOf="@+id/eventPriceInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventNumInput" />
+        app:layout_constraintTop_toBottomOf="@+id/eventDurationInput" />
 
     <TextView
         android:id="@+id/eventLocationInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
         android:text="Location"
         android:textAlignment="viewStart"
@@ -173,7 +180,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegistos" />
+        app:layout_constraintTop_toBottomOf="@+id/eventNumInput" />
 
     <Button
         android:id="@+id/btnJoin"
@@ -191,28 +198,25 @@
 
     <ImageView
         android:id="@+id/imageViewInput"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@color/common_google_signin_btn_text_dark_focused"
-        app:layout_constraintBottom_toTopOf="@+id/eventNameInput"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <Button
         android:id="@+id/listOfUsersBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="14dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorAccent"
         android:onClick="viewUsers"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegistos" />
+        android:text="View user list"
+        android:textColor="@color/colorOrange"
+        app:layout_constraintBottom_toTopOf="@+id/txtRegistos"
+        app:layout_constraintEnd_toStartOf="@+id/nearYouMap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewInput" />
 
 </android.support.constraint.ConstraintLayout>
 

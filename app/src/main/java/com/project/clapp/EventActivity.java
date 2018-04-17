@@ -30,7 +30,9 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.clapp.impl.EventFirebaseManager;
+import com.project.clapp.impl.UserFirebaseManager;
 import com.project.clapp.models.Event;
+import com.project.clapp.models.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +42,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EventActivity extends AppCompatActivity {
-    TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, maxRegister, priceInput;
+    TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, maxRegister, priceInput, durationInput;
     ImageView imgView;
     private StorageReference mStorageRef;
     private GoogleMap mMap;
@@ -77,6 +79,8 @@ public class EventActivity extends AppCompatActivity {
     public void fillDataEvent() {
         nameInput = findViewById(R.id.eventNameInput);
         imgView = findViewById(R.id.imageViewInput);
+
+
         nameInput.setText(EVENT.getName());
         address = EVENT.getLocal();
         double longitude = EVENT.getLongitude();
@@ -89,6 +93,8 @@ public class EventActivity extends AppCompatActivity {
         timeInput = findViewById(R.id.eventTimeInput);
         timeInput.setText(EVENT.getTime());
 
+
+
         localInput = findViewById(R.id.eventLocationInput);
         localInput.setText(address);
 
@@ -96,22 +102,42 @@ public class EventActivity extends AppCompatActivity {
         String maxR = Integer.toString(EVENT.getMaxRegisters());
 
         numRegister = findViewById(R.id.eventNumInput);
-        numRegister.setText(numR);
+        if (numR.equals(maxR) && !maxR.equals("0")) {
+            numRegister.setText("FULL");
+        } else {
+            numRegister.setText(numR);
+        }
+
 
         maxRegister = findViewById(R.id.eventMaxInput);
-        maxRegister.setText(maxR);
+        if (maxR.equals("0")) {
+            maxRegister.setText("Unlimited");
+        } else {
+            maxRegister.setText("Limited to: " + maxR + " people");
+        }
+
+
+
+        creatorInput = findViewById(R.id.eventCreatorInput);
+        creatorInput.setText("Created by: " + UserFirebaseManager.getInstance().getUser(EVENT.getuID()).getName());
+
+        durationInput = findViewById(R.id.eventDurationInput);
+        durationInput.setText(EVENT.getDuration());
 
         if (EVENT.getUserList().contains(mAuth.getCurrentUser().getUid())) {
             join = true;
             button.setBackgroundColor(Color.parseColor("#ffbb00"));
             button.setText("Cancel Registration");
+        } else if (Integer.parseInt(maxR)!= 0 && Integer.parseInt(maxR) == Integer.parseInt(numR)) {
+            button.setEnabled(false);
+            button.setVisibility(View.GONE);
         }
 
         priceInput = findViewById(R.id.eventPriceInput);
         if (EVENT.getPriceEvent() == 0) {
-            priceInput.setText("FREE!");
+            priceInput.setText("Price: FREE!");
         } else {
-            priceInput.setText(Double.toString(EVENT.getPriceEvent()));
+            priceInput.setText("Price: " + Double.toString(EVENT.getPriceEvent()) + "€");
         }
 
 
