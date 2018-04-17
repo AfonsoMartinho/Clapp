@@ -125,6 +125,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 Log.d(TAG, "onTimeSet: time: " + i + ":" + i1);
+                time ="";
                 if (i1 != 0 && i1 != 0) {
                     timeInput.setBackgroundColor(Color.parseColor("#ffbb00"));
                     time += i + ":" + i1 + " UTC";
@@ -206,7 +207,6 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
     }
 
     public void addDate(View view) {
-
         java.util.Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -249,6 +249,7 @@ public class CreateEvent extends AppCompatActivity implements NumberPicker.OnVal
 
 
     public void addDuration(View view) {
+        duration = "";
         final Dialog mDurationDialog = new Dialog(this);
         mDurationDialog.setTitle("Duration");
         mDurationDialog.setContentView(R.layout.dialog_add_duration);
