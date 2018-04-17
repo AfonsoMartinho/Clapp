@@ -2,7 +2,7 @@
 <resources>
     <color name="colorBurger">#6aa5b7</color>
     <color name="colorTopBar">#426773</color>
-    <color name="colorOtherBlue">#1E2749</color>
+    <color name="colorOtherBlue">#1e2749</color>
     <color name="colorGrey">#cccccc</color>
     <color name="colorOrange">#edae49</color>
     <color name="colorPrimary">#6aa5b7</color>

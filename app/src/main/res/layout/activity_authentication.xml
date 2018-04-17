@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_bright"
+    android:background="#ffffff"
     tools:context="com.project.clapp.Authentication">
 
     <EditText
@@ -43,6 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="109dp"
@@ -128,7 +129,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.06999999"
         app:srcCompat="@drawable/logo" />
-
 
 
 </android.support.constraint.ConstraintLayout>
