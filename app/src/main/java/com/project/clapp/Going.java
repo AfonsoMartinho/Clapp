@@ -26,7 +26,6 @@ public class Going extends Fragment {
 
 
     private FirebaseAuth mAuth;
-    private DrawerLayout mDrawerLayout;
     private static final String TAG = "FirebaseTest";
     EventAdapter eventAdapter;
     RecyclerView rv;

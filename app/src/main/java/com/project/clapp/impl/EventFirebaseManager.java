@@ -52,6 +52,7 @@ public class EventFirebaseManager implements IEvent{
     @Override
     public void clearEvents() {
         eventList.clear();
+        oldEvents.clear();
     }
 
     @Override
@@ -96,8 +97,6 @@ public class EventFirebaseManager implements IEvent{
         String userList = userId;
         ArrayList<String> users = new ArrayList<String>();
         users.add(userList);
-        System.out.println(tags);
-        ArrayList<String> tagsEvent = tags;
         Event event = new Event(postId,
                 nameEvent,
                 userId,
