@@ -37,6 +37,7 @@
             android:id="@+id/nameEvent"
             android:layout_width="230dp"
             android:layout_height="94dp"
+            android:layout_gravity="left"
             android:layout_weight="1"
             android:background="@color/colorBurger"
             android:gravity="left|center"
