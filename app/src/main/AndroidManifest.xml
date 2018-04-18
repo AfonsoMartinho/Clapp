@@ -37,19 +37,25 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EventActivity"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true" />
-        <activity android:name=".CreateEvent"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".LoadingActivity"
-            android:screenOrientation="portrait"/>
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateEvent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoadingActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".QRS" />
-        <activity android:name=".ProfileActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".UserListEvent"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".EventListByUser"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserListEvent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EventListByUser"
+            android:screenOrientation="portrait" />
+        <activity android:name=".EventMap"></activity>
     </application>
 
 </manifest>

@@ -42,12 +42,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EventActivity extends AppCompatActivity {
-    TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, maxRegister, priceInput, durationInput;
+    TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, priceInput, descInput, placeInput;
     ImageView imgView;
     private StorageReference mStorageRef;
-    private GoogleMap mMap;
     LatLng latlng;
-    String address;
+    String address, place;
     Event EVENT = new Event();
     Boolean join = false;
     private FirebaseAuth mAuth;
@@ -83,20 +82,19 @@ public class EventActivity extends AppCompatActivity {
 
         nameInput.setText(EVENT.getName());
         address = EVENT.getLocal();
+        place = EVENT.getPlace();
         double longitude = EVENT.getLongitude();
         double latitude = EVENT.getLatitude();
         latlng = new LatLng(latitude, longitude);
 
         dateInput = findViewById(R.id.eventDateInput);
-        dateInput.setText(EVENT.getDate());
+        dateInput.setText("Date: " + EVENT.getDate());
 
         timeInput = findViewById(R.id.eventTimeInput);
-        timeInput.setText(EVENT.getTime());
+        timeInput.setText("Time: " + EVENT.getTime());
 
-
-
-        localInput = findViewById(R.id.eventLocationInput);
-        localInput.setText(address);
+        placeInput = findViewById(R.id.eventPlaceInput);
+        placeInput.setText(place);
 
         String numR = Integer.toString(EVENT.getNumRegister());
         String maxR = Integer.toString(EVENT.getMaxRegisters());
@@ -108,21 +106,8 @@ public class EventActivity extends AppCompatActivity {
             numRegister.setText(numR);
         }
 
-
-        maxRegister = findViewById(R.id.eventMaxInput);
-        if (maxR.equals("0")) {
-            maxRegister.setText("Unlimited");
-        } else {
-            maxRegister.setText("Limited to: " + maxR + " people");
-        }
-
-
-
         creatorInput = findViewById(R.id.eventCreatorInput);
         creatorInput.setText("Created by: " + UserFirebaseManager.getInstance().getUser(EVENT.getuID()).getName());
-
-        durationInput = findViewById(R.id.eventDurationInput);
-        durationInput.setText(EVENT.getDuration());
 
         if (EVENT.getUserList().contains(mAuth.getCurrentUser().getUid())) {
             join = true;
@@ -139,6 +124,9 @@ public class EventActivity extends AppCompatActivity {
         } else {
             priceInput.setText("Price: " + Double.toString(EVENT.getPriceEvent()) + "€");
         }
+
+        descInput = findViewById(R.id.eventDescInput);
+        descInput.setText(EVENT.getDescr());
 
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -168,8 +156,6 @@ public class EventActivity extends AppCompatActivity {
 
 
         });
-
-        initMap();
 
         String str = EVENT.getDate() + " " + EVENT.getTime();
         SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz", Locale.ENGLISH);
@@ -236,6 +222,12 @@ public class EventActivity extends AppCompatActivity {
 
     }
 
+    public void getMap(View view) {
+        Intent intent = new Intent(EventActivity.this, EventMap.class);
+        intent.putExtra("id", EVENT.getId());
+        startActivity(intent);
+    }
+
     public boolean registerEvent () {
 
 
@@ -268,26 +260,7 @@ public class EventActivity extends AppCompatActivity {
         }
     }
 
-    private void moveCamera(LatLng latlng, float zoom, String address) {
-        Log.d("MAP", "moveCamera: moving the camera to: lat: " + latlng);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
 
-        MarkerOptions options = new MarkerOptions()
-                .position(latlng)
-                .title(address);
-        mMap.addMarker(options);
-        mMap.getUiSettings().setScrollGesturesEnabled(false);    }
-    private void initMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.nearYouMap);
-
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
-                moveCamera(latlng, DEFAULT_ZOOM, address);
-            }
-        });
-    }
     @Override
     public void onBackPressed(){
         super.onBackPressed();
