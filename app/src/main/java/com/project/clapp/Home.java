@@ -111,7 +111,6 @@ public class Home extends AppCompatActivity
         Bundle extras = intent.getExtras();
         if (extras != null) {
             String goTo = extras.getString("goto");
-            System.out.println(goTo);
             if (goTo.equals("calendar")) {
                 setTitle("Calendar");
                 Calendar calendar = new Calendar();
@@ -127,6 +126,11 @@ public class Home extends AppCompatActivity
                 MyEvents myE = new MyEvents();
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.fragment, myE).commit();
+            } else if (goTo.equals("going")) {
+                setTitle("My Events");
+                Going going = new Going();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.fragment, going).commit();
             }
 
         } else {
@@ -236,7 +240,6 @@ public class Home extends AppCompatActivity
 
     public void loadPic(View headerView, User user) {
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        System.out.println(user.getImgURL());
         StorageReference userImg = mStorageRef.child("users").child(user.getImgURL());
 
         tv = headerView.findViewById(R.id.nameNavBar);

@@ -25,7 +25,6 @@ public class Authentication extends AppCompatActivity {
     private EditText emailUser;
     private EditText passUser;
     private TextView errorMessage;
-    private ImageView imgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +34,6 @@ public class Authentication extends AppCompatActivity {
         emailUser = findViewById(R.id.inputEmail);
         passUser = findViewById(R.id.inputPass);
         errorMessage = findViewById(R.id.errorMessage);
-        imgView = findViewById(R.id.imgIcon);
-        //imgView.setImageResource(R.drawable.hashsip);
 
         mAuth.signOut();
     }
@@ -50,8 +47,6 @@ public class Authentication extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-                            Log.d(TAG, "PODE ENTRAR");
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             //Envia os dados para a RealTimeDatabase do Firebase
@@ -63,7 +58,6 @@ public class Authentication extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "UTILIZADOR INEXISTENTE", task.getException());
                             errorMessage.setText("User does not exist");
                         }
                     }
@@ -72,7 +66,6 @@ public class Authentication extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-        System.out.println("back press");
         finish();
     }
 

@@ -37,6 +37,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        //hide tag bar
                 //| View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
@@ -46,14 +47,14 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
                 try {
                     super.run();
-                    sleep(2000);
+                    sleep(2500);
                 } catch (Exception e) {
                     System.out.println(e);
                 } finally {
 
                     Intent i = new Intent(LoadingActivity.this,
                             Home.class);
-                    i.putExtra("goto", "calendar");
+                    i.putExtra("goto", "going");
                     startActivity(i);
                     finish();
                 }
@@ -64,6 +65,7 @@ public class LoadingActivity extends AppCompatActivity {
     public void loadEvents() {
         EVENTS = EventFirebaseManager.getInstance().getEventList();
         EventFirebaseManager.getInstance().clearEvents();
+
         DatabaseReference dataEvents;
         dataEvents = FirebaseDatabase.getInstance().getReference();
         DatabaseReference eventListRef = dataEvents.child("events");
@@ -194,6 +196,7 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     public void loadToLists(Event event) {
+        //COMPARE DATES
         String str = event.getDate()+ " " + event.getTime();
         SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm zzz", Locale.ENGLISH);
         Date date;
@@ -202,8 +205,10 @@ public class LoadingActivity extends AppCompatActivity {
         try {
             date = df.parse(str);
             if (currentDate.before(date)) {
+                //EVENTS THAT ARE YET TO HAPPEN
                 EventFirebaseManager.getInstance().setEvents(event, 1);
             } else {
+                //EVENTS THAT HAVE ALREADY HAPPENED
                 EventFirebaseManager.getInstance().setEvents(event, 2);
             }
         } catch (ParseException e) {
