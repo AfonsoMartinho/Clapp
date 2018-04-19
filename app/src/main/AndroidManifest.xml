@@ -25,7 +25,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAaIvGAWElbKAc-whulIeGbuX0PKm_h9d8" />
 
-        <activity android:name=".Authentication">
+        <activity android:name=".Authentication"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
