@@ -44,6 +44,7 @@ import java.util.Locale;
 public class EventActivity extends AppCompatActivity {
     TextView nameInput, localInput, timeInput, dateInput, creatorInput, numRegister, priceInput, descInput, placeInput;
     ImageView imgView;
+    int numOfReg;
     private StorageReference mStorageRef;
     LatLng latlng;
     String address, place;
@@ -100,10 +101,11 @@ public class EventActivity extends AppCompatActivity {
         String maxR = Integer.toString(EVENT.getMaxRegisters());
 
         numRegister = findViewById(R.id.eventNumInput);
+        numOfReg = Integer.parseInt(numR);
         if (numR.equals(maxR) && !maxR.equals("0")) {
             numRegister.setText("FULL");
         } else {
-            numRegister.setText(numR);
+            numRegister.setText(Integer.toString(numOfReg));
         }
 
         creatorInput = findViewById(R.id.eventCreatorInput);
@@ -237,7 +239,9 @@ public class EventActivity extends AppCompatActivity {
         try {
             DatabaseReference userListRef = databaseEvents.child("events").child(EVENT.getId()).child("userList").child(mAuth.getCurrentUser().getUid());
             userListRef.setValue(mAuth.getCurrentUser().getUid());
-            databaseEvents.child("events").child(EVENT.getId()).child("numRegister").setValue(EVENT.getNumRegister() + 1);
+            EVENT.setNumRegister(EVENT.getNumRegister() + 1);
+            databaseEvents.child("events").child(EVENT.getId()).child("numRegister").setValue(EVENT.getNumRegister());
+            numRegister.setText(Integer.toString(EVENT.getNumRegister()));
             return true;
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -252,7 +256,9 @@ public class EventActivity extends AppCompatActivity {
         try {
             DatabaseReference userListRef = databaseEvents.child("events").child(EVENT.getId()).child("userList").child(mAuth.getCurrentUser().getUid());
             userListRef.setValue(null);
-            databaseEvents.child("events").child(EVENT.getId()).child("numRegister").setValue(EVENT.getNumRegister() - 1);
+            EVENT.setNumRegister(EVENT.getNumRegister() - 1);
+            databaseEvents.child("events").child(EVENT.getId()).child("numRegister").setValue(EVENT.getNumRegister());
+            numRegister.setText(Integer.toString(EVENT.getNumRegister()));
             return true;
         } catch (Exception e) {
             System.out.println(e.toString());

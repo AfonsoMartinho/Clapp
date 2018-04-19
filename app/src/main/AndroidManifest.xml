@@ -9,11 +9,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/launcher_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -23,7 +25,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAaIvGAWElbKAc-whulIeGbuX0PKm_h9d8" />
 
-        <activity android:name=".Authentication">
+        <activity android:name=".Authentication"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
