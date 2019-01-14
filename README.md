@@ -1,4 +1,3 @@
 # Clapp
 
-Email para testes: teste123@esmad.ipp.pt 
-Password: 123456
+App Created in Android Studio
